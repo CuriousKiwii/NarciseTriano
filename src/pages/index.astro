@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Photo from "../components/Photo.astro";
 import Icon from "../components/Icon.astro";
 import TierCard from "../components/TierCard.astro";
+import { u } from "../lib/url";
 import {
   driver,
   contact,
@@ -87,7 +88,7 @@ const chevrons = "&gt;".repeat(120);
               </div>
             </dl>
           </div>
-          <a href="/partner" class="btn btn-red w-full">Back the drive <Icon name="bolt" /></a>
+          <a href={u("/partner")} class="btn btn-red w-full">Back the drive <Icon name="bolt" /></a>
         </div>
 
         <div class="lg:col-span-8 relative min-h-[380px] md:min-h-[480px] overflow-hidden group order-1 lg:order-2 flex flex-col justify-end">
@@ -158,8 +159,8 @@ const chevrons = "&gt;".repeat(120);
           </p>
         </div>
         <div class="flex flex-wrap gap-4">
-          <a href="/partner" class="btn btn-red">Become a partner //</a>
-          <a href={prospectusPdf} download class="btn btn-ghost"><Icon name="download" /> Sponsor deck</a>
+          <a href={u("/partner")} class="btn btn-red">Become a partner //</a>
+          <a href={u(prospectusPdf)} download class="btn btn-ghost"><Icon name="download" /> Sponsor deck</a>
         </div>
       </div>
 
@@ -305,7 +306,7 @@ const chevrons = "&gt;".repeat(120);
 
       <div class="flex items-center justify-between">
         <h3 class="headline text-3xl">Partnership tiers</h3>
-        <a href="/partner#tiers" class="telemetry text-red-soft hover:text-ink flex items-center gap-2">
+        <a href={u("/partner#tiers")} class="telemetry text-red-soft hover:text-ink flex items-center gap-2">
           Full details <Icon name="arrow" class="w-4 h-4" />
         </a>
       </div>

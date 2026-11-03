@@ -1,6 +1,7 @@
 ---
 import Icon from "./Icon.astro";
 import { driver, contact, nav } from "../data/site";
+import { u } from "../lib/url";
 const year = new Date().getFullYear();
 ---
 
@@ -21,7 +22,7 @@ const year = new Date().getFullYear();
       <div class="md:col-span-3 flex flex-col gap-2">
         <span class="telemetry text-ink-dim">Navigate</span>
         <ul class="grid grid-cols-2 gap-x-4 gap-y-1">
-          {nav.map((n) => <li><a href={n.href} class="text-sm text-ink-muted hover:text-ink">{n.label}</a></li>)}
+          {nav.map((n) => <li><a href={u(n.href)} class="text-sm text-ink-muted hover:text-ink">{n.label}</a></li>)}
         </ul>
       </div>
 

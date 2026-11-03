@@ -49,15 +49,24 @@ Without setup, the form opens the visitor's email app with everything pre-filled
 2. Copy the form ID (the part after `/f/`).
 3. Locally: put it in `.env` as `PUBLIC_FORMSPREE_ID=xxxx`. On GitHub: Settings > Secrets and variables > Actions > Variables, add `PUBLIC_FORMSPREE_ID`.
 
-## Deploying
+## Deploying (test build on GitHub Pages)
 
-A GitHub Actions workflow (`.github/workflows/deploy.yml`) builds and publishes to GitHub Pages on every push to `main`.
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) builds and publishes to GitHub Pages on every push to `main`. The test site lives at:
+
+**https://curiouskiwii.github.io/NarciseTriano/**
 
 1. Repo Settings > Pages > Source: **GitHub Actions**.
 2. Push to `main`.
-3. Custom domain: `public/CNAME` is set to `narcissetriano.com`. At the domain registrar, point the apex domain at GitHub Pages (A records `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`) and add a `www` CNAME to `<github-username>.github.io`. Then tick "Enforce HTTPS" in Pages settings.
 
-Netlify, Vercel, and Cloudflare Pages also work with zero config (build command `npm run build`, output folder `dist`). If you use one of those, delete the workflow file.
+Because the site is served from a subfolder, `astro.config.mjs` sets `base: "/NarciseTriano"`, and every internal link goes through the `u()` helper in `src/lib/url.ts`. Use `u("/some-path")` for any new internal link or asset.
+
+Note: GitHub Pages on a private repo requires GitHub Pro (or Team/Enterprise). On a free account, make the repo public or Pages won't publish.
+
+### Moving to narcissetriano.com later
+
+1. In `astro.config.mjs`, set `site` to `https://narcissetriano.com` and remove `base`.
+2. Add `public/CNAME` containing `narcissetriano.com`.
+3. At the registrar, point the apex domain at GitHub Pages (A records `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`) and add a `www` CNAME to `curiouskiwii.github.io`. Then tick "Enforce HTTPS" in Pages settings.
 
 ## Before launch checklist
 
@@ -67,4 +76,4 @@ Netlify, Vercel, and Cloudflare Pages also work with zero config (build command 
 - [ ] Decide whether the phone number should be public (`contact.phone`, set to `""` to hide).
 - [ ] Add real race photos to `public/images/`.
 - [ ] Set up Formspree (optional).
-- [ ] Point the domain.
+- [ ] Switch from the test subfolder to the real domain (see above).

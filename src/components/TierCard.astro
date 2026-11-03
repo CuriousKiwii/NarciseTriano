@@ -1,6 +1,7 @@
 ---
 import Icon from "./Icon.astro";
 import type { Tier } from "../data/site";
+import { u } from "../lib/url";
 
 interface Props {
   tier: Tier;
@@ -48,7 +49,7 @@ const num = String(index + 1).padStart(2, "0");
   </div>
 
   <a
-    href={compact ? "/partner#tiers" : `/partner?tier=${encodeURIComponent(tier.name)}#contact`}
+    href={u(compact ? "/partner#tiers" : `/partner?tier=${encodeURIComponent(tier.name)}#contact`)}
     data-tier={tier.name}
     class:list={["btn w-full !text-xl", tier.featured ? "btn-red" : "bg-surface-highest hover:bg-red hover:text-red-ink"]}
     aria-label={compact ? `See ${tier.name} details` : `Ask about the ${tier.name} tier`}

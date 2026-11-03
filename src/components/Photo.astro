@@ -6,6 +6,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { u } from "../lib/url";
 
 interface Props {
   src: string;
@@ -21,7 +22,7 @@ const exists = fs.existsSync(path.join(process.cwd(), "public", src));
 {
   exists ? (
     <img
-      src={src}
+      src={u(src)}
       alt={alt}
       class={className}
       loading={eager ? "eager" : "lazy"}

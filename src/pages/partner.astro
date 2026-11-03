@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import TierCard from "../components/TierCard.astro";
 import ContactSection from "../components/ContactSection.astro";
+import { u } from "../lib/url";
 import { driver, stats, whyPartner, getInEarly, tiers, tierNote, carGoal, partners, prospectusPdf } from "../data/site";
 
 const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
@@ -29,7 +30,7 @@ const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", curren
       </p>
       <div class="flex flex-wrap gap-4">
         <a href="#tiers" class="btn btn-red">See the tiers //</a>
-        <a href={prospectusPdf} download class="btn btn-ghost"><Icon name="download" /> Download PDF</a>
+        <a href={u(prospectusPdf)} download class="btn btn-ghost"><Icon name="download" /> Download PDF</a>
       </div>
     </div>
   </section>
@@ -115,7 +116,7 @@ const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", curren
               valued at the equivalent tier level. Just as valuable to me as cash.
             </p>
           </div>
-          <a href="/partner?tier=In-kind%20%2F%20product%20partnership#contact" data-tier="In-kind / product partnership" class="btn w-full !text-xl bg-surface-highest hover:bg-red hover:text-red-ink">
+          <a href={u("/partner?tier=In-kind%20%2F%20product%20partnership#contact")} data-tier="In-kind / product partnership" class="btn w-full !text-xl bg-surface-highest hover:bg-red hover:text-red-ink">
             Let's talk //
           </a>
         </div>
@@ -160,7 +161,7 @@ const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", curren
           partners.length > 0
             ? partners.map((p) => (
                 <a href={p.url} target="_blank" rel="noopener" class="h-28 bg-surface-mid flex items-center justify-center p-4 hover:bg-surface-high">
-                  {p.logo ? <img src={p.logo} alt={p.name} class="max-h-16 max-w-full object-contain" /> : <span class="headline text-2xl">{p.name}</span>}
+                  {p.logo ? <img src={u(p.logo)} alt={p.name} class="max-h-16 max-w-full object-contain" /> : <span class="headline text-2xl">{p.name}</span>}
                 </a>
               ))
             : Array.from({ length: 4 }).map(() => (
