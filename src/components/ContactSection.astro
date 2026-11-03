@@ -1,0 +1,136 @@
+---
+import Icon from "./Icon.astro";
+import { contact, tiers, prospectusPdf } from "../data/site";
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID;
+const action = formspreeId ? `https://formspree.io/f/${formspreeId}` : `mailto:${contact.email}`;
+const tierOptions = [...tiers.map((t) => t.name), "In-kind / product partnership", "Something custom", "Just saying hi"];
+---
+
+<section id="contact" class="bg-surface-low py-16 md:py-24">
+  <div class="max-w-7xl mx-auto px-5 md:px-gutter grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+    <div class="lg:col-span-5 flex flex-col gap-5">
+      <div class="flex items-center gap-2">
+        <span class="w-3 h-3 bg-red"></span>
+        <span class="telemetry text-red-soft">Let's talk</span>
+      </div>
+      <h2 class="headline text-5xl md:text-6xl">Build a partnership <span class="text-red">that fits.</span></h2>
+      <p class="text-ink-muted leading-relaxed">
+        I'd love to talk through which tier makes sense for your business, or build something custom. I'm happy to send
+        more photos, video content, or race schedules. I'm flexible, so if none of the tiers fit exactly right, reach
+        out and we'll figure out something that works for both of us.
+      </p>
+
+      <div class="flex flex-col gap-2 mt-2">
+        <a href={`mailto:${contact.email}`} class="flex items-center gap-3 p-4 bg-surface-mid hover:bg-surface-high transition-colors">
+          <Icon name="mail" class="w-5 h-5 text-red-soft" />
+          <span class="font-mono text-sm">{contact.email}</span>
+        </a>
+        {
+          contact.phone && (
+            <a href={`tel:${contact.phone.replace(/\D/g, "")}`} class="flex items-center gap-3 p-4 bg-surface-mid hover:bg-surface-high transition-colors">
+              <Icon name="phone" class="w-5 h-5 text-red-soft" />
+              <span class="font-mono text-sm">{contact.phone}</span>
+            </a>
+          )
+        }
+        <a href={prospectusPdf} download class="flex items-center gap-3 p-4 bg-surface-mid hover:bg-surface-high transition-colors">
+          <Icon name="download" class="w-5 h-5 text-red-soft" />
+          <span class="font-mono text-sm">Download the sponsorship prospectus (PDF)</span>
+        </a>
+      </div>
+    </div>
+
+    <form
+      id="contact-form"
+      action={action}
+      method="POST"
+      data-mailto={formspreeId ? undefined : contact.email}
+      class="lg:col-span-7 bg-surface-mid p-6 md:p-8 flex flex-col gap-5"
+    >
+      <div class="flex items-center justify-between">
+        <span class="telemetry">Partner inquiry</span>
+        <span class="font-mono text-micro uppercase text-ink-dim">Goes straight to Narcisse</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <label class="flex flex-col gap-1.5">
+          <span class="telemetry text-ink-dim">Your name</span>
+          <input required name="name" autocomplete="name" class="bg-surface-lowest px-4 py-3 text-ink outline-none focus:ring-2 focus:ring-red" />
+        </label>
+        <label class="flex flex-col gap-1.5">
+          <span class="telemetry text-ink-dim">Business</span>
+          <input name="business" autocomplete="organization" class="bg-surface-lowest px-4 py-3 text-ink outline-none focus:ring-2 focus:ring-red" />
+        </label>
+        <label class="flex flex-col gap-1.5">
+          <span class="telemetry text-ink-dim">Email</span>
+          <input required type="email" name="email" autocomplete="email" class="bg-surface-lowest px-4 py-3 text-ink outline-none focus:ring-2 focus:ring-red" />
+        </label>
+        <label class="flex flex-col gap-1.5">
+          <span class="telemetry text-ink-dim">Interested in</span>
+          <select id="tier-select" name="tier" class="bg-surface-lowest px-4 py-3 text-ink outline-none focus:ring-2 focus:ring-red">
+            {tierOptions.map((t) => <option value={t}>{t}</option>)}
+          </select>
+        </label>
+      </div>
+      <label class="flex flex-col gap-1.5">
+        <span class="telemetry text-ink-dim">Message</span>
+        <textarea name="message" rows="5" class="bg-surface-lowest px-4 py-3 text-ink outline-none focus:ring-2 focus:ring-red resize-y"></textarea>
+      </label>
+      <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+      <button type="submit" class="btn btn-red self-start">
+        Send it <Icon name="bolt" class="w-5 h-5" />
+      </button>
+      <p id="form-status" class="font-mono text-xs text-ink-dim" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const select = document.getElementById("tier-select") as HTMLSelectElement | null;
+  const status = document.getElementById("form-status");
+
+  // Preselect a tier when arriving from a "Let's talk" button (?tier=Gold)
+  const wanted = new URLSearchParams(location.search).get("tier");
+  if (wanted && select) {
+    const opt = [...select.options].find((o) => o.value === wanted);
+    if (opt) select.value = wanted;
+  }
+  document.querySelectorAll<HTMLAnchorElement>("a[data-tier]").forEach((a) =>
+    a.addEventListener("click", () => {
+      if (select && a.dataset.tier) select.value = a.dataset.tier;
+    }),
+  );
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const mailto = form.dataset.mailto;
+
+    if (mailto) {
+      const subject = `Partnership inquiry: ${data.get("tier")}`;
+      const body = [
+        `Name: ${data.get("name")}`,
+        `Business: ${data.get("business") || "-"}`,
+        `Email: ${data.get("email")}`,
+        `Interested in: ${data.get("tier")}`,
+        "",
+        String(data.get("message") || ""),
+      ].join("\n");
+      location.href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      if (status) status.textContent = "Opening your email app...";
+      return;
+    }
+
+    if (status) status.textContent = "Sending...";
+    try {
+      const res = await fetch(form.action, { method: "POST", body: data, headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error();
+      form.reset();
+      if (status) status.textContent = "Sent. Thank you! I'll be in touch soon.";
+    } catch {
+      if (status) status.textContent = "Something went wrong. Please email me directly.";
+    }
+  });
+</script>

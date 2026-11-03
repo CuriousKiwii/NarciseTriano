@@ -1,0 +1,143 @@
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+@import "@fontsource/barlow-condensed/800.css";
+@import "@fontsource/barlow-condensed/700-italic.css";
+@import "@fontsource/barlow-condensed/800-italic.css";
+@import "@fontsource/space-grotesk/400.css";
+@import "@fontsource/space-grotesk/600.css";
+@import "@fontsource/space-grotesk/700.css";
+@import "@fontsource/space-mono/400.css";
+@import "@fontsource/space-mono/700.css";
+
+@import "tailwindcss";
+
+/*
+  Design tokens ported from the Stitch mockup (dark "paddock" theme).
+  Change the brand red here and it flows through the whole site.
+*/
+@theme {
+  --color-red: #c80000;
+  --color-red-deep: #a00201;
+  --color-red-soft: #ffb4a8;
+  --color-red-ink: #ffd5cf;
+
+  --color-ink: #e5e2e1;
+  --color-ink-muted: #e7bdb6;
+  --color-ink-dim: #ae8882;
+
+  --color-surface-lowest: #0e0e0e;
+  --color-surface: #131313;
+  --color-surface-low: #1c1b1b;
+  --color-surface-mid: #201f1f;
+  --color-surface-high: #2a2a2a;
+  --color-surface-highest: #353534;
+  --color-surface-bright: #3a3939;
+  --color-outline: #5d3f3a;
+
+  --font-display: "Barlow Condensed", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+
+  --text-hero: 6rem;
+  --text-hero--line-height: 0.95;
+  --text-hero--letter-spacing: -0.02em;
+  --text-telemetry: 0.75rem;
+  --text-telemetry--line-height: 1.2;
+  --text-telemetry--letter-spacing: 0.08em;
+  --text-micro: 0.625rem;
+  --text-micro--line-height: 1.2;
+  --text-micro--letter-spacing: 0.1em;
+
+  --spacing-gutter: 2rem;
+
+  --animate-marquee: marquee 40s linear infinite;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    background: var(--color-surface);
+    color: var(--color-ink);
+  }
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+  }
+  ::selection {
+    background: var(--color-red);
+    color: var(--color-red-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-red-soft);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Small uppercase mono label used everywhere in the HUD look */
+  .telemetry {
+    font-family: var(--font-mono);
+    font-size: var(--text-telemetry);
+    line-height: var(--text-telemetry--line-height);
+    letter-spacing: var(--text-telemetry--letter-spacing);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .headline {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: background-color 150ms, color 150ms;
+  }
+  .btn-red {
+    background: var(--color-red);
+    color: var(--color-red-ink);
+  }
+  .btn-red:hover {
+    background: var(--color-red-deep);
+    color: var(--color-ink);
+  }
+  .btn-ghost {
+    background: var(--color-surface-high);
+    color: var(--color-ink);
+  }
+  .btn-ghost:hover {
+    background: var(--color-surface-bright);
+  }
+  .chevrons {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    user-select: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

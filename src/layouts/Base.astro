@@ -1,0 +1,66 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { driver, contact } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = `${driver.name} #${driver.carNumber} | Formula 4 Driver, Road to ${driver.goal}`,
+  description = `${driver.name} is a Formula 4 driver with ${driver.team} in the ${driver.series}, with 3 podiums in her first 4 races and her sights set on ${driver.goal}. Partnerships open now.`,
+  image = "/og.jpg",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: driver.name,
+  jobTitle: "Racing Driver",
+  memberOf: { "@type": "SportsTeam", name: driver.team },
+  url: Astro.site?.toString(),
+  email: `mailto:${contact.email}`,
+  sameAs: [contact.instagram.url, contact.tiktok.url],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0e0e0e" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="bg-surface text-ink">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-red focus:px-4 focus:py-2 telemetry"
+      >Skip to content</a
+    >
+    <Header />
+    <main id="main" class="pt-20">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

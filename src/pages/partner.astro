@@ -1,0 +1,178 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import TierCard from "../components/TierCard.astro";
+import ContactSection from "../components/ContactSection.astro";
+import { driver, stats, whyPartner, getInEarly, tiers, tierNote, carGoal, partners, prospectusPdf } from "../data/site";
+
+const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+---
+
+<Base
+  title={`Partner With ${driver.name} #${driver.carNumber} | F4 Sponsorship Tiers`}
+  description={`Sponsorship tiers from Bronze to Title Partner for ${driver.name}, Formula 4 driver with ${driver.team}. Suit, helmet, social, merch, and car placement on the road to ${driver.goal}.`}
+>
+  <!-- HERO -->
+  <section class="relative overflow-hidden bg-surface-lowest py-14 md:py-20">
+    <div class="absolute inset-0 flex items-center justify-end pointer-events-none select-none opacity-[0.04] pr-6" aria-hidden="true">
+      <span class="headline font-extrabold text-[200px] md:text-[320px]">#{driver.carNumber}</span>
+    </div>
+    <div class="relative max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-6">
+      <div class="inline-flex self-start px-3 py-1 bg-red text-red-ink telemetry">Sponsorship // Season {driver.season}</div>
+      <h1 class="headline font-extrabold text-6xl md:text-hero max-w-5xl">
+        Partner with <span class="text-red">#{driver.carNumber}</span> on the road to {driver.goal}.
+      </h1>
+      <p class="max-w-2xl text-lg text-ink-muted leading-relaxed">
+        I'm a Formula 4 driver with {driver.team} in the {driver.series}, with three podiums in my first four races. Here's
+        exactly how a partnership works, what it costs, and what you get back, whether you're a local business getting
+        started or a brand ready to go all-in as a title partner.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#tiers" class="btn btn-red">See the tiers //</a>
+        <a href={prospectusPdf} download class="btn btn-ghost"><Icon name="download" /> Download PDF</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="bg-red text-red-ink py-6" aria-label="Key stats">
+    <div class="max-w-7xl mx-auto px-5 md:px-gutter grid grid-cols-2 md:grid-cols-4 gap-4">
+      {
+        stats.map((s) => (
+          <div class="flex flex-col p-4 bg-red-deep/40">
+            <span class="headline font-extrabold text-5xl xl:text-6xl text-white">{s.value}</span>
+            <span class="font-semibold uppercase text-sm">{s.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- WHY + EARLY -->
+  <section class="bg-surface-low py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-5 md:px-gutter grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+      <div class="flex flex-col gap-5">
+        <span class="telemetry text-red-soft">Why partner with me</span>
+        <h2 class="headline text-5xl">Real exposure. <span class="text-red">Real relationship.</span></h2>
+        <ul class="flex flex-col gap-3">
+          {
+            whyPartner.map((w) => (
+              <li class="flex gap-3 p-4 bg-surface-mid">
+                <Icon name="check" class="w-5 h-5 shrink-0 text-red-soft mt-0.5" />
+                <div>
+                  <div class="headline text-2xl">{w.title}</div>
+                  <p class="text-sm text-ink-muted">{w.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="flex flex-col gap-5 bg-surface-mid p-6 md:p-8 relative overflow-hidden">
+        <div class="absolute top-0 inset-x-0 h-1 bg-red"></div>
+        <span class="telemetry text-red-soft">Get in early</span>
+        <h2 class="headline text-5xl">Today's rate. <span class="text-red">Tomorrow's audience.</span></h2>
+        <p class="text-ink-muted leading-relaxed">
+          F1 Academy is my next goal, and it changes the scale of this partnership entirely. F1 Academy races run alongside
+          F1 race weekends and plug into F1's global broadcast and media ecosystem, a completely different level of
+          visibility than regional F4. A sponsor who signs on now locks in today's rate and grows with the audience.
+        </p>
+        <ul class="flex flex-col gap-3">
+          {
+            getInEarly.map((g) => (
+              <li class="flex gap-3 text-sm">
+                <Icon name="arrow" class="w-4 h-4 shrink-0 text-red-soft mt-0.5" />
+                <span>{g}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIERS -->
+  <section id="tiers" class="bg-surface-lowest py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span class="telemetry text-red-soft block mb-2">Partnership tiers</span>
+          <h2 class="headline text-5xl md:text-6xl">Pick your <span class="text-red">spot on the grid</span></h2>
+        </div>
+        <p class="max-w-md text-ink-muted text-sm">
+          Every tier is built to be genuinely useful at its price point. Partners can combine across tiers, and any tier can
+          be customized, including product-based or in-kind support instead of cash.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+        {tiers.map((t, i) => <TierCard tier={t} index={i} />)}
+        <div class="bg-surface-mid p-6 flex flex-col justify-between gap-4 border-2 border-dashed border-surface-highest">
+          <div class="flex flex-col gap-3">
+            <span class="telemetry text-red-soft">Custom</span>
+            <h3 class="headline text-4xl">In-kind & product</h3>
+            <p class="text-sm text-ink-muted">
+              Equipment, apparel, travel, nutrition, recovery and training support, or services your business provides,
+              valued at the equivalent tier level. Just as valuable to me as cash.
+            </p>
+          </div>
+          <a href="/partner?tier=In-kind%20%2F%20product%20partnership#contact" data-tier="In-kind / product partnership" class="btn w-full !text-xl bg-surface-highest hover:bg-red hover:text-red-ink">
+            Let's talk //
+          </a>
+        </div>
+      </div>
+      <p class="flex gap-3 p-4 bg-surface-low text-sm text-ink-muted">
+        <Icon name="flag" class="w-5 h-5 shrink-0 text-red-soft" />
+        <span>{tierNote}</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- MERCH + GOAL -->
+  <section class="bg-surface-low py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-5 md:px-gutter grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+      <div class="lg:col-span-5 bg-surface-mid p-6 md:p-8 flex flex-col gap-4">
+        <span class="telemetry text-red-soft">Sponsor merch</span>
+        <h2 class="headline text-4xl">Your logo, <span class="text-red">beyond the track.</span></h2>
+        <p class="text-ink-muted leading-relaxed">
+          For Gold tier and above, I create co-branded merchandise featuring your logo alongside mine, so fans can
+          represent both of us and your brand lives outside the racetrack too.
+        </p>
+      </div>
+      <div class="lg:col-span-7 relative bg-red p-6 md:p-8 flex flex-col gap-4 overflow-hidden">
+        <span class="self-start bg-red-deep px-3 py-1 telemetry">The goal // Owning my car</span>
+        <div class="headline font-extrabold text-7xl md:text-8xl text-white">~{usd(carGoal.amount)}</div>
+        <p class="text-red-ink leading-relaxed">
+          F1 Academy is supplied and backed by major companies once a driver is picked up, but getting there means
+          proving myself with my own program first. Owning my race car for the season is the real, immediate goal. It's
+          the honest, big-picture number I'm working toward, one partnership at a time. Every partner, at every level, is
+          part of getting there.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNER WALL -->
+  <section class="bg-surface-lowest py-12">
+    <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-6">
+      <span class="telemetry text-ink-dim">Season {driver.season} partners</span>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {
+          partners.length > 0
+            ? partners.map((p) => (
+                <a href={p.url} target="_blank" rel="noopener" class="h-28 bg-surface-mid flex items-center justify-center p-4 hover:bg-surface-high">
+                  {p.logo ? <img src={p.logo} alt={p.name} class="max-h-16 max-w-full object-contain" /> : <span class="headline text-2xl">{p.name}</span>}
+                </a>
+              ))
+            : Array.from({ length: 4 }).map(() => (
+                <a href="#contact" class="h-28 border-2 border-dashed border-surface-highest flex flex-col items-center justify-center gap-1 hover:border-red transition-colors">
+                  <span class="headline text-2xl text-ink-muted">Your brand here</span>
+                  <span class="font-mono text-micro uppercase text-red-soft">Slot open</span>
+                </a>
+              ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</Base>

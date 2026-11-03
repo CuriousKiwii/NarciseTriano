@@ -1,0 +1,49 @@
+---
+/**
+ * Renders an image from /public if the file exists, otherwise a styled
+ * placeholder that names the file to drop in. This keeps the layout
+ * intact until real race photos are added.
+ */
+import fs from "node:fs";
+import path from "node:path";
+
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  eager?: boolean;
+}
+
+const { src, alt, class: className = "", eager = false } = Astro.props;
+const exists = fs.existsSync(path.join(process.cwd(), "public", src));
+---
+
+{
+  exists ? (
+    <img
+      src={src}
+      alt={alt}
+      class={className}
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+    />
+  ) : (
+    <div
+      role="img"
+      aria-label={alt}
+      class:list={[
+        className,
+        "relative flex items-center justify-center overflow-hidden bg-surface-lowest",
+      ]}
+    >
+      <div
+        class="absolute inset-0 opacity-40"
+        style="background-image: repeating-linear-gradient(115deg, transparent 0 22px, rgba(200,0,0,.18) 22px 24px), radial-gradient(ellipse at 70% 80%, rgba(200,0,0,.35), transparent 60%);"
+      />
+      <div class="relative text-center px-4">
+        <div class="telemetry text-red-soft">Photo slot</div>
+        <div class="mt-1 font-mono text-micro text-ink-dim normal-case">public{src}</div>
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,58 @@
+---
+import Icon from "./Icon.astro";
+import type { Tier } from "../data/site";
+
+interface Props {
+  tier: Tier;
+  index: number;
+  compact?: boolean;
+}
+const { tier, index, compact = false } = Astro.props;
+const num = String(index + 1).padStart(2, "0");
+---
+
+<article
+  class:list={[
+    "relative flex flex-col justify-between gap-6 p-6 transition-colors",
+    tier.featured ? "bg-surface-high" : "bg-surface-mid hover:bg-surface-high",
+  ]}
+>
+  {tier.featured && <div class="absolute top-0 inset-x-0 h-1 bg-red" />}
+  <div class="flex flex-col gap-3">
+    <div class="flex items-center justify-between">
+      <span class="telemetry text-red-soft">Tier {num}</span>
+      {tier.featured && <span class="font-mono text-micro uppercase bg-red text-red-ink px-2 py-0.5">Recommended</span>}
+    </div>
+    <h3 class="headline text-4xl">{tier.name}</h3>
+    <div class:list={["headline text-3xl", tier.featured ? "text-red-soft" : "text-ink"]}>{tier.price}</div>
+    <p class="text-sm italic text-ink-dim">{tier.bestFit}</p>
+
+    {
+      !compact && (
+        <ul class="flex flex-col gap-2 mt-2">
+          {tier.includesPrevious && (
+            <li class="flex gap-2 text-sm text-ink">
+              <Icon name="check" class="w-4 h-4 mt-0.5 shrink-0 text-red-soft" />
+              <span>Everything in {tier.includesPrevious}, plus:</span>
+            </li>
+          )}
+          {tier.perks.map((p) => (
+            <li class="flex gap-2 text-sm text-ink-muted">
+              <Icon name="check" class="w-4 h-4 mt-0.5 shrink-0 text-red-soft" />
+              <span>{p}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+
+  <a
+    href={compact ? "/partner#tiers" : `/partner?tier=${encodeURIComponent(tier.name)}#contact`}
+    data-tier={tier.name}
+    class:list={["btn w-full !text-xl", tier.featured ? "btn-red" : "bg-surface-highest hover:bg-red hover:text-red-ink"]}
+    aria-label={compact ? `See ${tier.name} details` : `Ask about the ${tier.name} tier`}
+  >
+    {compact ? "See details //" : "Let's talk //"}
+  </a>
+</article>
