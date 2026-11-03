@@ -1,8 +1,10 @@
 ---
 /**
  * Renders an image from /public if the file exists, otherwise a styled
- * placeholder that names the file to drop in. This keeps the layout
- * intact until real race photos are added.
+ * placeholder that names the file to drop in.
+ *
+ * Mobile: if a "-sm" version sits next to the image (hero.jpg + hero-sm.jpg),
+ * phones download the small one automatically via srcset.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -13,19 +15,31 @@ interface Props {
   alt: string;
   class?: string;
   eager?: boolean;
+  /** Rendered width hint for the browser, e.g. "(min-width: 1024px) 66vw, 100vw" */
+  sizes?: string;
 }
 
-const { src, alt, class: className = "", eager = false } = Astro.props;
-const exists = fs.existsSync(path.join(process.cwd(), "public", src));
+const { src, alt, class: className = "", eager = false, sizes = "100vw" } = Astro.props;
+const pub = (p: string) => path.join(process.cwd(), "public", p);
+const exists = fs.existsSync(pub(src));
+
+const small = src.replace(/(\.[a-z]+)$/i, "-sm$1");
+let srcset: string | undefined;
+if (exists && fs.existsSync(pub(small))) {
+  srcset = `${u(small)} 720w, ${u(src)} 1600w`;
+}
 ---
 
 {
   exists ? (
     <img
       src={u(src)}
+      srcset={srcset}
+      sizes={srcset ? sizes : undefined}
       alt={alt}
       class={className}
       loading={eager ? "eager" : "lazy"}
+      fetchpriority={eager ? "high" : undefined}
       decoding="async"
     />
   ) : (

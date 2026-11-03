@@ -28,12 +28,17 @@ Requires Node 22+.
 
 Nearly everything lives in **`src/data/site.ts`**: stats, timeline, tiers, gallery captions, social handles, email, phone, and the partner list. Change it there and both pages update.
 
-**Photos.** Drop images into `public/images/` with these names and they appear automatically. Until then a styled placeholder shows in each slot.
+**Photos.** Images live in `public/images/`. Each photo has a full-size version and a `-sm` version (720px wide) that phones download instead, so pages stay fast on mobile.
 
-| File | Where it shows | Suggested size |
-|---|---|---|
-| `hero.jpg` | Home hero, large right panel | 1600 x 1000, landscape |
-| `gallery-1.jpg` to `gallery-3.jpg` | Home gallery cards | 1200 x 900 |
+| File | Where it shows |
+|---|---|
+| `hero.jpg` + `hero-sm.jpg` | Home hero |
+| `gallery-1/2/3.jpg` + `-sm.jpg` | Home gallery cards |
+| `driver.webp` | Driver cutout in the story section |
+| `signature.webp` | "Proud" signature under the hero quote |
+| `merch-front.webp`, `merch-back.webp` | Merch section on the partner page |
+
+To swap a photo, replace the file with the same name (and its `-sm` version). Any missing file shows a styled placeholder. Captions and alt text are in `site.ts`.
 
 **Partners.** When someone signs, add them to the `partners` array in `site.ts` and put their logo in `public/partners/`. The "Your brand here" slots go away once there's at least one partner.
 
@@ -70,10 +75,8 @@ Note: GitHub Pages on a private repo requires GitHub Pro (or Team/Enterprise). O
 
 ## Before launch checklist
 
-- [ ] Confirm car number (`driver.carNumber`, currently **15**, carried over from the design mockup). Also update `public/favicon.svg` and `public/og.jpg` if it changes.
 - [ ] Confirm season year and that stats are current (3 of 4 podiums, 200K+ views, 5.2K+ followers).
 - [ ] Confirm Instagram/TikTok handles are `@narcisseontrack`.
 - [ ] Decide whether the phone number should be public (`contact.phone`, set to `""` to hide).
-- [ ] Add real race photos to `public/images/`.
 - [ ] Set up Formspree (optional).
 - [ ] Switch from the test subfolder to the real domain (see above).

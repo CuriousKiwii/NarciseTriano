@@ -9,7 +9,6 @@
 export const driver = {
   name: "Narcisse Triano",
   firstName: "Narcisse",
-  // TODO(confirm): car number came from the design mockup. Verify before launch.
   carNumber: "15",
   team: "Kiwi Motorsport",
   series: "F4 West Coast Championship",
@@ -196,29 +195,42 @@ export const tierNote =
 export const gallery = [
   {
     src: "/images/gallery-1.jpg",
-    tag: "Race weekend",
-    title: "On the grid",
-    caption: "F4 West Coast Championship with Kiwi Motorsport.",
+    alt: "Narcisse's black and yellow #15 F4 car kicking up dust through a desert corner",
+    tag: "Full send",
+    title: "Desert corner",
+    caption: "Carrying speed through the turn in the #15 car.",
   },
   {
     src: "/images/gallery-2.jpg",
-    tag: "Podium",
-    title: "Three podiums in four races",
-    caption: "A strong start to my first F4 season.",
+    alt: "The #15 F4 car parked trackside at dusk",
+    tag: "The machine",
+    title: "Car #15",
+    caption: "My Formula 4 car with Kiwi Motorsport.",
   },
   {
     src: "/images/gallery-3.jpg",
+    alt: "A #15 formula car sliding through a corner in a cloud of tire smoke",
     tag: "Trackside",
-    title: "In the paddock",
-    caption: "Behind the scenes with the team between sessions.",
+    title: "Tire smoke",
+    caption: "Finding the limit, one corner at a time.",
   },
 ];
 
 export const heroImage = {
   src: "/images/hero.jpg",
-  alt: "Narcisse Triano in the Kiwi Motorsport F4 car",
+  alt: "Narcisse Triano in the #15 F4 car on pit lane at sunset",
   label: "Kiwi Motorsport // F4 West Coast",
 };
+
+/** Cutout of Narcisse in her race suit, and her "Proud" signature mark. */
+export const driverPortrait = { src: "/images/driver.webp", alt: "Narcisse Triano in her race suit and helmet" };
+export const signature = { src: "/images/signature.webp", alt: "Narcisse's Proud signature" };
+
+/** Merch shown on the partner page (from narcissetriano.com). */
+export const merch = [
+  { src: "/images/merch-front.webp", alt: "Black hoodie with a photo of Narcisse in her race suit" },
+  { src: "/images/merch-back.webp", alt: "Back of the hoodie with the #15 car, checkered flags, and the Proud signature" },
+];
 
 /**
  * Current partners. While this is empty, the site shows open "your brand here"

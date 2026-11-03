@@ -16,6 +16,8 @@ import {
   gallery,
   heroImage,
   prospectusPdf,
+  driverPortrait,
+  signature,
 } from "../data/site";
 
 const pct = carGoal.raised != null ? Math.min(100, (carGoal.raised / carGoal.amount) * 100) : null;
@@ -40,7 +42,7 @@ const chevrons = "&gt;".repeat(120);
 
   <!-- HERO -->
   <section class="relative overflow-hidden bg-surface-lowest py-10 md:py-14">
-    <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[0.04]" aria-hidden="true">
+    <div class="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none select-none opacity-[0.04]" aria-hidden="true">
       <span class="headline font-extrabold text-[150px] md:text-[260px] whitespace-nowrap">F4 #{driver.carNumber}</span>
     </div>
 
@@ -71,7 +73,10 @@ const chevrons = "&gt;".repeat(120);
             <figure class="relative bg-surface-high p-5">
               <div class="absolute left-0 top-0 w-1 h-full bg-red"></div>
               <blockquote class="italic leading-relaxed">{driver.quote}</blockquote>
-              <figcaption class="telemetry text-red-soft mt-3">{driver.name}</figcaption>
+              <figcaption class="mt-3 flex items-center justify-between gap-3">
+                <span class="telemetry text-red-soft">{driver.name}</span>
+                <Photo src={signature.src} alt={signature.alt} class="h-12 w-auto -rotate-6" />
+              </figcaption>
             </figure>
             <dl class="flex flex-col gap-2">
               <div class="flex items-center justify-between p-3 bg-surface-mid">
@@ -91,21 +96,25 @@ const chevrons = "&gt;".repeat(120);
           <a href={u("/partner")} class="btn btn-red w-full">Back the drive <Icon name="bolt" /></a>
         </div>
 
-        <div class="lg:col-span-8 relative min-h-[380px] md:min-h-[480px] overflow-hidden group order-1 lg:order-2 flex flex-col justify-end">
-          <Photo
-            src={heroImage.src}
-            alt={heroImage.alt}
-            eager
-            class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-surface-lowest via-surface-lowest/30 to-transparent"></div>
-          <div class="absolute top-4 right-4 px-4 py-1.5 bg-surface-lowest/90 backdrop-blur-md">
+        <div class="lg:col-span-8 relative lg:min-h-[480px] overflow-hidden group order-1 lg:order-2 flex flex-col lg:justify-end bg-surface-lowest">
+          <!-- Phones: photo on top, text below so the car stays visible. Desktop: text overlays the photo. -->
+          <div class="relative aspect-[16/10] lg:aspect-auto lg:absolute lg:inset-0 overflow-hidden">
+            <Photo
+              src={heroImage.src}
+              alt={heroImage.alt}
+              eager
+              sizes="(min-width: 1024px) 66vw, 100vw"
+              class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-surface-lowest/80 via-transparent to-transparent lg:from-surface-lowest lg:via-surface-lowest/30"></div>
+          </div>
+          <div class="hidden sm:block absolute top-4 right-4 px-4 py-1.5 bg-surface-lowest/90 backdrop-blur-md">
             <span class="telemetry text-red-soft">{heroImage.label}</span>
           </div>
-          <div class="relative p-6 flex flex-wrap items-end justify-between gap-4">
+          <div class="relative p-5 lg:p-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span class="font-mono text-micro uppercase text-red-soft">Next step</span>
-              <div class="headline font-extrabold text-5xl">Own the car. <span class="text-red">Reach F1 Academy.</span></div>
+              <div class="headline font-extrabold text-4xl sm:text-5xl">Own the car. <span class="text-red">Reach F1 Academy.</span></div>
             </div>
             <div class="bg-red px-4 py-2 text-red-ink telemetry">Season {driver.season} // {driver.seriesShort}</div>
           </div>
@@ -120,7 +129,7 @@ const chevrons = "&gt;".repeat(120);
       {
         stats.map((s) => (
           <div class="flex flex-col p-4 bg-red-deep/40">
-            <span class="headline font-extrabold text-5xl md:text-6xl xl:text-7xl my-1 text-white">{s.value}</span>
+            <span class="headline font-extrabold text-4xl sm:text-5xl md:text-6xl xl:text-7xl my-1 text-white">{s.value}</span>
             <span class="font-semibold uppercase">{s.label}</span>
             <span class="text-xs mt-1 text-red-ink/80">{s.note}</span>
           </div>
@@ -165,7 +174,16 @@ const chevrons = "&gt;".repeat(120);
       </div>
 
       <!-- Road so far HUD -->
-      <aside id="season" class="lg:col-span-5 bg-surface-mid p-6 flex flex-col gap-6 lg:sticky lg:top-28">
+      <aside id="season" class="lg:col-span-5 bg-surface-mid p-6 flex flex-col gap-6">
+        <div class="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-red via-red-deep to-surface-lowest">
+          <div class="absolute inset-0 flex items-center justify-center headline font-extrabold text-[220px] text-black/20 select-none" aria-hidden="true">#{driver.carNumber}</div>
+          <Photo src={driverPortrait.src} alt={driverPortrait.alt} class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[95%] w-auto object-contain" />
+          <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-surface-lowest/90 to-transparent">
+            <span class="font-mono text-micro uppercase text-red-soft">Driver</span>
+            <div class="headline text-3xl">{driver.name}</div>
+          </div>
+        </div>
+
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-red animate-ping"></span>
@@ -267,8 +285,8 @@ const chevrons = "&gt;".repeat(120);
         {
           gallery.map((g) => (
             <figure class="group bg-surface-mid flex flex-col overflow-hidden">
-              <div class="relative h-80 overflow-hidden">
-                <Photo src={g.src} alt={g.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div class="relative h-64 sm:h-80 overflow-hidden">
+                <Photo src={g.src} alt={g.alt} sizes="(min-width: 768px) 33vw, 100vw" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div class="absolute inset-0 bg-gradient-to-t from-surface-mid via-transparent to-transparent opacity-80" />
                 <span class="absolute top-3 left-3 bg-surface-lowest/90 px-2 py-0.5 telemetry text-red-soft">{g.tag}</span>
               </div>
@@ -290,8 +308,8 @@ const chevrons = "&gt;".repeat(120);
   <!-- PARTNER CTA -->
   <section class="bg-surface-lowest py-16 md:py-24">
     <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-10">
-      <div class="relative bg-red p-8 md:p-12 overflow-hidden">
-        <div class="absolute -right-10 -bottom-16 headline font-extrabold text-[200px] text-red-deep/60 select-none pointer-events-none" aria-hidden="true">
+      <div class="relative bg-red p-6 sm:p-8 md:p-12 overflow-hidden">
+        <div class="absolute -right-10 -bottom-16 headline font-extrabold text-[140px] sm:text-[200px] text-red-deep/60 select-none pointer-events-none" aria-hidden="true">
           #{driver.carNumber}
         </div>
         <div class="relative max-w-3xl flex flex-col gap-4">
