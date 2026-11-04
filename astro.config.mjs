@@ -2,12 +2,11 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
-// Test deployment on GitHub Pages: https://curiouskiwii.github.io/NarciseTriano/
-// When moving to the real domain, set site to "https://narcissetriano.com",
-// remove `base`, and add public/CNAME containing narcissetriano.com.
+// Live on GitHub Pages at the custom domain (see public/CNAME).
+// For a test build under a subfolder, add `base: "/NarciseTriano"` and set site
+// to "https://curiouskiwii.github.io".
 export default defineConfig({
-  site: "https://curiouskiwii.github.io",
-  base: "/NarciseTriano",
+  site: "https://narcissetriano.com",
   vite: {
     plugins: [tailwindcss()],
   },

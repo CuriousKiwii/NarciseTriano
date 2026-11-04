@@ -58,28 +58,26 @@ Without setup, the form opens the visitor's email app with everything pre-filled
 2. Copy the form ID (the part after `/f/`).
 3. Locally: put it in `.env` as `PUBLIC_FORMSPREE_ID=xxxx`. On GitHub: Settings > Secrets and variables > Actions > Variables, add `PUBLIC_FORMSPREE_ID`.
 
-## Deploying (test build on GitHub Pages)
+## Deploying
 
-A GitHub Actions workflow (`.github/workflows/deploy.yml`) builds and publishes to GitHub Pages on every push to `main`. The test site lives at:
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) builds and publishes to GitHub Pages on every push to `main`. The site is live at **https://narcissetriano.com** (custom domain set in `public/CNAME` and in the repo's Settings > Pages).
 
-**https://curiouskiwii.github.io/NarciseTriano/**
+The domain is registered through the church Canva account. Its DNS (Canva > Settings > Web domains > narcissetriano.com > Advanced settings) points at GitHub Pages:
 
-1. Repo Settings > Pages > Source: **GitHub Actions**.
-2. Push to `main`.
+| Type | Name | Value |
+|---|---|---|
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | curiouskiwii.github.io |
 
-Because the site is served from a subfolder, `astro.config.mjs` sets `base: "/NarciseTriano"`, and every internal link goes through the `u()` helper in `src/lib/url.ts`. Use `u("/some-path")` for any new internal link or asset.
+**Reverting to the old Canva site:** in Canva, reconnect the domain to Canva on that same Advanced settings page. A full offline backup of the old site was taken on Nov 4, 2026 (separate zip), and the original design plus a copy are in the Canva account.
 
-Note: GitHub Pages on a private repo requires GitHub Pro (or Team/Enterprise). On a free account, make the repo public or Pages won't publish.
-
-### Moving to narcissetriano.com later
-
-1. In `astro.config.mjs`, set `site` to `https://narcissetriano.com` and remove `base`.
-2. Add `public/CNAME` containing `narcissetriano.com`.
-3. At the registrar, point the apex domain at GitHub Pages (A records `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`) and add a `www` CNAME to `curiouskiwii.github.io`. Then tick "Enforce HTTPS" in Pages settings.
+Internal links and assets go through the `u()` helper in `src/lib/url.ts`, so the site can also be built under a subfolder by setting `base` in `astro.config.mjs`.
 
 ## Before launch checklist
 
 - [ ] Replace screenshot photos with full-size originals.
-- [ ] Confirm where narcissetriano.com is registered (possibly Canva) and point it here.
 - [ ] Set up Formspree so the contact form sends directly (optional).
 - [ ] Update results and the 2027 schedule once the calendar and FIA license are set.
