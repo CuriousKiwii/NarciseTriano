@@ -1,6 +1,6 @@
 ---
 import Icon from "./Icon.astro";
-import { driver, nav } from "../data/site";
+import { driver, nav, logo, donateUrl } from "../data/site";
 import { u } from "../lib/url";
 const path = Astro.url.pathname;
 ---
@@ -8,15 +8,14 @@ const path = Astro.url.pathname;
 <header class="fixed top-0 inset-x-0 z-50 bg-surface-lowest/90 backdrop-blur-md">
   <div class="h-20 px-5 md:px-gutter flex items-center justify-between gap-4">
     <div class="flex items-center gap-6">
-      <a href={u("/")} class="group flex items-center gap-2" aria-label={`${driver.name} home`}>
-        <span class="w-2.5 h-7 bg-red"></span>
-        <span class="headline text-2xl md:text-[28px] tracking-wider group-hover:text-red-soft transition-colors">
-          {driver.name} <span class="text-red">#{driver.carNumber}</span>
-        </span>
+      <a href={u("/")} class="group flex items-center gap-3" aria-label={`${driver.name} home`}>
+        <span class="w-2.5 h-9 bg-red"></span>
+        <img src={u(logo.white)} alt={logo.alt} class="h-14 w-auto -my-2 group-hover:opacity-80 transition-opacity" />
+        <span class="headline text-2xl text-red">#{driver.carNumber}</span>
       </a>
       <div class="hidden xl:flex items-center gap-2 px-2 py-1 bg-surface-low">
         <span class="w-2 h-2 rounded-full bg-red animate-pulse"></span>
-        <span class="font-mono text-micro uppercase text-ink-muted">F4 // {driver.team}</span>
+        <span class="font-mono text-micro uppercase text-ink-muted">{driver.category} // {driver.team}</span>
       </div>
     </div>
 
@@ -41,6 +40,9 @@ const path = Astro.url.pathname;
     </nav>
 
     <div class="flex items-center gap-3">
+      <a href={donateUrl} target="_blank" rel="noopener" class="btn btn-ghost hidden md:inline-flex !py-1.5 !px-4 !text-xl">
+        Support
+      </a>
       <a href={u("/partner")} class="btn btn-red hidden sm:inline-flex !py-1.5 !px-5 !text-xl">
         <span class="font-mono text-telemetry">//</span> Partner with me
       </a>
@@ -68,7 +70,10 @@ const path = Astro.url.pathname;
         ))
       }
     </ul>
-    <a href={u("/partner")} class="btn btn-red w-full mt-4">Partner with me</a>
+    <div class="grid grid-cols-1 gap-2 mt-4">
+      <a href={u("/partner")} class="btn btn-red w-full">Partner with me</a>
+      <a href={donateUrl} target="_blank" rel="noopener" class="btn btn-ghost w-full">Support my journey</a>
+    </div>
   </nav>
 </header>
 

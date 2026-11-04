@@ -1,6 +1,6 @@
 ---
 import Icon from "./Icon.astro";
-import type { Tier } from "../data/site";
+import { showTierPrices, type Tier } from "../data/site";
 import { u } from "../lib/url";
 
 interface Props {
@@ -25,7 +25,7 @@ const num = String(index + 1).padStart(2, "0");
       {tier.featured && <span class="font-mono text-micro uppercase bg-red text-red-ink px-2 py-0.5">Recommended</span>}
     </div>
     <h3 class="headline text-4xl">{tier.name}</h3>
-    <div class:list={["headline text-3xl", tier.featured ? "text-red-soft" : "text-ink"]}>{tier.price}</div>
+    {showTierPrices && <div class:list={["headline text-3xl", tier.featured ? "text-red-soft" : "text-ink"]}>{tier.price}</div>}
     <p class="text-sm italic text-ink-dim">{tier.bestFit}</p>
 
     {
@@ -54,6 +54,6 @@ const num = String(index + 1).padStart(2, "0");
     class:list={["btn w-full !text-xl", tier.featured ? "btn-red" : "bg-surface-highest hover:bg-red hover:text-red-ink"]}
     aria-label={compact ? `See ${tier.name} details` : `Ask about the ${tier.name} tier`}
   >
-    {compact ? "See details //" : "Let's talk //"}
+    {compact ? "See details //" : "Contact me for details //"}
   </a>
 </article>

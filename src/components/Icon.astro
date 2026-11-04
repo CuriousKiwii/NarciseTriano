@@ -1,7 +1,7 @@
 ---
 /** Small inline SVG icon set (replaces the Material Symbols font from the mockup). */
 interface Props {
-  name: "bolt" | "check" | "arrow" | "external" | "instagram" | "tiktok" | "mail" | "phone" | "download" | "flag" | "menu" | "close";
+  name: "bolt" | "check" | "arrow" | "external" | "instagram" | "tiktok" | "mail" | "phone" | "download" | "flag" | "menu" | "close" | "youtube";
   class?: string;
 }
 const { name, class: className = "w-5 h-5" } = Astro.props;
@@ -33,6 +33,12 @@ const { name, class: className = "w-5 h-5" } = Astro.props;
   {name === "phone" && <path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2Z" />}
   {name === "download" && <path d="M12 3v12m-5-5 5 5 5-5M4 20h16" />}
   {name === "flag" && <path d="M5 21V4h12l-2 4 2 4H5" />}
+  {name === "youtube" && (
+    <>
+      <rect x="2" y="5" width="20" height="14" rx="4" />
+      <path d="m10 9 5 3-5 3Z" fill="currentColor" stroke="none" />
+    </>
+  )}
   {name === "menu" && <path d="M3 7h18M3 12h18M3 17h18" />}
   {name === "close" && <path d="M5 5l14 14M19 5 5 19" />}
 </svg>

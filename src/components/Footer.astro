@@ -1,6 +1,6 @@
 ---
 import Icon from "./Icon.astro";
-import { driver, contact, nav } from "../data/site";
+import { driver, contact, nav, logo, donateUrl, shop } from "../data/site";
 import { u } from "../lib/url";
 const year = new Date().getFullYear();
 ---
@@ -9,14 +9,18 @@ const year = new Date().getFullYear();
   <div class="max-w-7xl mx-auto px-5 md:px-gutter py-12 flex flex-col gap-10">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
       <div class="md:col-span-5 flex flex-col gap-3">
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-5 bg-red"></span>
-          <span class="headline text-2xl tracking-wider">{driver.name} // Road to {driver.goal}</span>
+        <div class="flex items-center gap-3">
+          <span class="w-2 h-8 bg-red"></span>
+          <img src={u(logo.white)} alt={logo.alt} class="h-12 w-auto" />
         </div>
         <p class="text-sm text-ink-muted max-w-md">
-          Formula 4 driver with {driver.team} in the {driver.series}. Building toward {driver.goal}, one
-          partnership at a time.
+          {driver.category} driver with {driver.team} in the {driver.series}. Building toward {driver.goal}, one
+          partner and one supporter at a time.
         </p>
+        <div class="flex flex-wrap gap-x-5 gap-y-1">
+          <a href={donateUrl} target="_blank" rel="noopener" class="telemetry text-red-soft hover:text-ink">Support my journey</a>
+          <a href={shop.links[0].url} target="_blank" rel="noopener" class="telemetry text-red-soft hover:text-ink">Shop merch</a>
+        </div>
       </div>
 
       <div class="md:col-span-3 flex flex-col gap-2">
@@ -27,12 +31,15 @@ const year = new Date().getFullYear();
       </div>
 
       <div class="md:col-span-4 flex flex-col gap-2">
-        <span class="telemetry text-ink-dim">Follow the season</span>
+        <span class="telemetry text-ink-dim">Follow the journey</span>
         <a href={contact.instagram.url} target="_blank" rel="noopener" class="flex items-center gap-2 text-sm text-ink-muted hover:text-ink">
           <Icon name="instagram" class="w-4 h-4" /> Instagram @{contact.instagram.handle}
         </a>
         <a href={contact.tiktok.url} target="_blank" rel="noopener" class="flex items-center gap-2 text-sm text-ink-muted hover:text-ink">
           <Icon name="tiktok" class="w-4 h-4" /> TikTok @{contact.tiktok.handle}
+        </a>
+        <a href={contact.youtube.url} target="_blank" rel="noopener" class="flex items-center gap-2 text-sm text-ink-muted hover:text-ink">
+          <Icon name="youtube" class="w-4 h-4" /> YouTube @{contact.youtube.handle}
         </a>
         <a href={`mailto:${contact.email}`} class="flex items-center gap-2 text-sm text-ink-muted hover:text-ink">
           <Icon name="mail" class="w-4 h-4" /> {contact.email}
@@ -42,7 +49,7 @@ const year = new Date().getFullYear();
 
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-surface-high">
       <span class="font-mono text-micro uppercase text-ink-dim">
-        © {year} {driver.name} Racing #{driver.carNumber}. All rights reserved.
+        © {year} {driver.name} Racing. All rights reserved.
       </span>
       <span class="font-mono text-micro uppercase text-ink-dim">{contact.website}</span>
     </div>

@@ -1,11 +1,12 @@
 ---
 import Icon from "./Icon.astro";
-import { contact, tiers, prospectusPdf } from "../data/site";
+import { contact, tiers } from "../data/site";
 import { u } from "../lib/url";
 
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID;
 const action = formspreeId ? `https://formspree.io/f/${formspreeId}` : `mailto:${contact.email}`;
-const tierOptions = [...tiers.map((t) => t.name), "In-kind / product partnership", "Something custom", "Just saying hi"];
+const deckOption = "Request my sponsorship deck";
+const tierOptions = [deckOption, ...tiers.map((t) => t.name), "In-kind / product partnership", "Something custom", "Just saying hi"];
 ---
 
 <section id="contact" class="bg-surface-low py-16 md:py-24">
@@ -18,7 +19,7 @@ const tierOptions = [...tiers.map((t) => t.name), "In-kind / product partnership
       <h2 class="headline text-5xl md:text-6xl">Build a partnership <span class="text-red">that fits.</span></h2>
       <p class="text-ink-muted leading-relaxed">
         I'd love to talk through which tier makes sense for your business, or build something custom. I'm happy to send
-        more photos, video content, or race schedules. I'm flexible, so if none of the tiers fit exactly right, reach
+        my sponsorship deck, more photos, video content, or race schedules. I'm flexible, so if none of the tiers fit exactly right, reach
         out and we'll figure out something that works for both of us.
       </p>
 
@@ -27,17 +28,9 @@ const tierOptions = [...tiers.map((t) => t.name), "In-kind / product partnership
           <Icon name="mail" class="w-5 h-5 text-red-soft" />
           <span class="font-mono text-sm">{contact.email}</span>
         </a>
-        {
-          contact.phone && (
-            <a href={`tel:${contact.phone.replace(/\D/g, "")}`} class="flex items-center gap-3 p-4 bg-surface-mid hover:bg-surface-high transition-colors">
-              <Icon name="phone" class="w-5 h-5 text-red-soft" />
-              <span class="font-mono text-sm">{contact.phone}</span>
-            </a>
-          )
-        }
-        <a href={u(prospectusPdf)} download class="flex items-center gap-3 p-4 bg-surface-mid hover:bg-surface-high transition-colors">
+        <a href="#contact" data-tier={deckOption} class="flex items-center gap-3 p-4 bg-surface-mid hover:bg-surface-high transition-colors">
           <Icon name="download" class="w-5 h-5 text-red-soft" />
-          <span class="font-mono text-sm">Download the sponsorship prospectus (PDF)</span>
+          <span class="font-mono text-sm">Request my sponsorship deck</span>
         </a>
       </div>
     </div>

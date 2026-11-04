@@ -12,8 +12,8 @@ interface Props {
 }
 
 const {
-  title = `${driver.name} #${driver.carNumber} | Formula 4 Driver, Road to ${driver.goal}`,
-  description = `${driver.name} is a Formula 4 driver with ${driver.team} in the ${driver.series}, with 3 podiums in her first 4 races and her sights set on ${driver.goal}. Partnerships open now.`,
+  title = `${driver.name} | F4 Driver, Road to ${driver.goal}`,
+  description = `${driver.name} is an F4 driver with ${driver.team} in the ${driver.series}: 3 podiums and a pole from 4 races in a first season, now chasing the full ${driver.nextSeason} championship and ${driver.goal}. Partnerships open now.`,
   image = "/og.jpg",
 } = Astro.props;
 
@@ -28,7 +28,7 @@ const jsonLd = {
   memberOf: { "@type": "SportsTeam", name: driver.team },
   url: new URL(u("/"), Astro.site).toString(),
   email: `mailto:${contact.email}`,
-  sameAs: [contact.instagram.url, contact.tiktok.url],
+  sameAs: [contact.instagram.url, contact.tiktok.url, contact.youtube.url],
 };
 ---
 

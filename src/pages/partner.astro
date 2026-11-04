@@ -5,14 +5,15 @@ import TierCard from "../components/TierCard.astro";
 import ContactSection from "../components/ContactSection.astro";
 import { u } from "../lib/url";
 import Photo from "../components/Photo.astro";
-import { driver, stats, whyPartner, getInEarly, tiers, tierNote, carGoal, partners, prospectusPdf, merch } from "../data/site";
+import FundraisingMeter from "../components/FundraisingMeter.astro";
+import { driver, stats, whyPartner, getInEarly, tiers, tierNote, tiersStartingAt, partners, merch, shop } from "../data/site";
 
-const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+const openSlots = Math.max(0, 4 - partners.length);
 ---
 
 <Base
-  title={`Partner With ${driver.name} #${driver.carNumber} | F4 Sponsorship Tiers`}
-  description={`Sponsorship tiers from Bronze to Title Partner for ${driver.name}, Formula 4 driver with ${driver.team}. Suit, helmet, social, merch, and car placement on the road to ${driver.goal}.`}
+  title={`Partner With ${driver.name} | F4 Sponsorship`}
+  description={`Sponsorship tiers from Bronze to Title Partner for ${driver.name}, F4 driver with ${driver.team}. Suit, helmet, social, merch, and car placement on the road to ${driver.goal}. Partnerships starting at ${tiersStartingAt}.`}
 >
   <!-- HERO -->
   <section class="relative overflow-hidden bg-surface-lowest py-14 md:py-20">
@@ -20,18 +21,18 @@ const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", curren
       <span class="headline font-extrabold text-[200px] md:text-[320px]">#{driver.carNumber}</span>
     </div>
     <div class="relative max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-6">
-      <div class="inline-flex self-start px-3 py-1 bg-red text-red-ink telemetry">Sponsorship // Season {driver.season}</div>
+      <div class="inline-flex self-start px-3 py-1 bg-red text-red-ink telemetry">Sponsorship // {driver.nextSeason} season</div>
       <h1 class="headline font-extrabold text-6xl md:text-hero max-w-5xl">
         Partner with <span class="text-red">#{driver.carNumber}</span> on the road to {driver.goal}.
       </h1>
       <p class="max-w-2xl text-lg text-ink-muted leading-relaxed">
-        I'm a Formula 4 driver with {driver.team} in the {driver.series}, with three podiums in my first four races. Here's
-        exactly how a partnership works, what it costs, and what you get back, whether you're a local business getting
-        started or a brand ready to go all-in as a title partner.
+        I'm an {driver.category} driver with {driver.team} in the {driver.series}. In my first season I took 3 podiums and a
+        pole from 4 races, and in {driver.nextSeason} I'm running the full championship. Here's how a partnership works and
+        what you get back, whether you're a local business getting started or a brand ready to go all-in as a title partner.
       </p>
       <div class="flex flex-wrap gap-4">
         <a href="#tiers" class="btn btn-red">See the tiers //</a>
-        <a href={u(prospectusPdf)} download class="btn btn-ghost"><Icon name="download" /> Download PDF</a>
+        <a href="#contact" data-tier="Request my sponsorship deck" class="btn btn-ghost"><Icon name="download" /> Request my deck</a>
       </div>
     </div>
   </section>
@@ -102,8 +103,8 @@ const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", curren
           <h2 class="headline text-5xl md:text-6xl">Pick your <span class="text-red">spot on the grid</span></h2>
         </div>
         <p class="max-w-md text-ink-muted text-sm">
-          Every tier is built to be genuinely useful at its price point. Partners can combine across tiers, and any tier can
-          be customized, including product-based or in-kind support instead of cash.
+          Partnerships start at {tiersStartingAt}. Contact me for details and pricing on any tier. Partners can combine
+          across tiers, and any tier can be customized, including product-based or in-kind support instead of cash.
         </p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
@@ -146,39 +147,48 @@ const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", curren
             </div>
           ))}
         </div>
-        <span class="font-mono text-micro uppercase text-ink-dim">Current Narcisse merch</span>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <span class="font-mono text-micro uppercase text-ink-dim">Current NTriano merch: {shop.products}</span>
+          <a href={shop.links[0].url} target="_blank" rel="noopener" class="telemetry text-red-soft hover:text-ink flex items-center gap-2">
+            Shop merch <Icon name="external" class="w-4 h-4" />
+          </a>
+        </div>
       </div>
-      <div class="lg:col-span-7 relative bg-red p-6 md:p-8 flex flex-col gap-4 overflow-hidden">
-        <span class="self-start bg-red-deep px-3 py-1 telemetry">The goal // Owning my car</span>
-        <div class="headline font-extrabold text-6xl sm:text-7xl md:text-8xl text-white">~{usd(carGoal.amount)}</div>
-        <p class="text-red-ink leading-relaxed">
-          F1 Academy is supplied and backed by major companies once a driver is picked up, but getting there means
-          proving myself with my own program first. Owning my race car for the season is the real, immediate goal. It's
-          the honest, big-picture number I'm working toward, one partnership at a time. Every partner, at every level, is
-          part of getting there.
-        </p>
+      <div class="lg:col-span-7 relative overflow-hidden min-h-64 bg-surface-lowest flex items-center justify-center p-8">
+        <div class="absolute inset-0 bg-gradient-to-br from-red via-red-deep to-surface-lowest opacity-90"></div>
+        <img src={u("/images/signature-white.webp")} alt="NTriano" class="relative w-full max-w-md" />
       </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-5 md:px-gutter mt-gutter">
+      <FundraisingMeter />
     </div>
   </section>
 
   <!-- PARTNER WALL -->
   <section class="bg-surface-lowest py-12">
     <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-6">
-      <span class="telemetry text-ink-dim">Season {driver.season} partners</span>
+      <span class="telemetry text-ink-dim">Partners</span>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         {
-          partners.length > 0
-            ? partners.map((p) => (
-                <a href={p.url} target="_blank" rel="noopener" class="h-28 bg-surface-mid flex items-center justify-center p-4 hover:bg-surface-high">
-                  {p.logo ? <img src={u(p.logo)} alt={p.name} class="max-h-16 max-w-full object-contain" /> : <span class="headline text-2xl">{p.name}</span>}
-                </a>
-              ))
-            : Array.from({ length: 4 }).map(() => (
-                <a href="#contact" class="h-28 border-2 border-dashed border-surface-highest flex flex-col items-center justify-center gap-1 hover:border-red transition-colors">
-                  <span class="headline text-2xl text-ink-muted">Your brand here</span>
-                  <span class="font-mono text-micro uppercase text-red-soft">Slot open</span>
-                </a>
-              ))
+          partners.map((p) =>
+            p.url ? (
+              <a href={p.url} target="_blank" rel="noopener" class="h-28 bg-surface-mid flex items-center justify-center p-4 hover:bg-surface-high">
+                {p.logo ? <img src={u(p.logo)} alt={p.name} class="max-h-16 max-w-full object-contain" /> : <span class="headline text-3xl">{p.name}</span>}
+              </a>
+            ) : (
+              <div class="h-28 bg-surface-mid flex items-center justify-center p-4">
+                {p.logo ? <img src={u(p.logo)} alt={p.name} class="max-h-16 max-w-full object-contain" /> : <span class="headline text-3xl">{p.name}</span>}
+              </div>
+            ),
+          )
+        }
+        {
+          Array.from({ length: openSlots }).map(() => (
+            <a href="#contact" class="h-28 border-2 border-dashed border-surface-highest flex flex-col items-center justify-center gap-1 hover:border-red transition-colors">
+              <span class="headline text-2xl text-ink-muted">Your brand here</span>
+              <span class="font-mono text-micro uppercase text-red-soft">Slot open</span>
+            </a>
+          ))
         }
       </div>
     </div>

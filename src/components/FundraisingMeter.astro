@@ -1,0 +1,63 @@
+---
+import Icon from "./Icon.astro";
+import { u } from "../lib/url";
+import { fundraising, donateUrl, driver } from "../data/site";
+
+const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+const pct = fundraising.raised != null ? Math.min(100, (fundraising.raised / fundraising.goal) * 100) : null;
+---
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-stretch">
+  <div class="lg:col-span-7 bg-surface-mid p-6 md:p-8 flex flex-col gap-5 relative overflow-hidden">
+    <div class="absolute top-0 inset-x-0 h-1 bg-red"></div>
+    <span class="telemetry text-red-soft">The goal // {driver.nextSeason} + {driver.goal}</span>
+    <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+      {
+        pct != null ? (
+          <>
+            <span class="headline font-extrabold text-6xl md:text-7xl text-white">{usd(fundraising.raised!)}</span>
+            <span class="text-ink-muted">raised of {usd(fundraising.goal)}</span>
+          </>
+        ) : (
+          <span class="headline font-extrabold text-6xl md:text-7xl text-white">{usd(fundraising.goal)}</span>
+        )
+      }
+    </div>
+    {
+      pct != null && (
+        <div>
+          <div
+            class="w-full h-4 bg-surface-lowest"
+            role="progressbar"
+            aria-label="Fundraising progress"
+            aria-valuenow={Math.round(pct)}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="h-full bg-red" style={`width:${pct}%`} />
+          </div>
+          <div class="flex justify-between telemetry text-ink-dim mt-2">
+            <span>{Math.round(pct)}% there</span>
+            <span>{usd(fundraising.goal)}</span>
+          </div>
+        </div>
+      )
+    }
+    <p class="text-ink-muted leading-relaxed">{fundraising.summary}</p>
+  </div>
+
+  <div class="lg:col-span-5 flex flex-col gap-3">
+    {
+      fundraising.breakdown.map((b) => (
+        <div class="flex items-center justify-between p-5 bg-surface-mid">
+          <span class="headline text-2xl">{b.label}</span>
+          <span class="headline text-3xl text-red-soft">{usd(b.amount)}</span>
+        </div>
+      ))
+    }
+    <a href={u("/partner")} class="btn btn-red w-full mt-auto">Partner with me <Icon name="bolt" /></a>
+    <a href={donateUrl} target="_blank" rel="noopener" class="btn btn-ghost w-full !text-xl">
+      Support my journey <Icon name="external" class="w-4 h-4" />
+    </a>
+  </div>
+</div>

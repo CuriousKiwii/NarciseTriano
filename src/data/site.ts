@@ -1,20 +1,23 @@
 /**
  * All of the site's editable content lives here.
- * Update stats, tiers, photos, and contact info in this one file;
+ * Update stats, results, tiers, photos, and links in this one file;
  * the pages pick up the changes automatically.
  *
- * Source of truth: Narcisse's 2026 Sponsorship Prospectus.
+ * Sources: Narcisse's sponsorship prospectus and her website questionnaire (Nov 2026).
  */
 
 export const driver = {
   name: "Narcisse Triano",
   firstName: "Narcisse",
-  carNumber: "15",
+  /** The 88 stays the same; the leading digit changes by event (#188, #888). */
+  carNumber: "88",
   team: "Kiwi Motorsport",
-  series: "F4 West Coast Championship",
-  seriesShort: "F4 West Coast",
+  series: "Formula Pro USA Western Championship",
+  seriesShort: "Formula Pro USA West",
+  category: "F4",
   goal: "F1 Academy",
-  season: "2026",
+  nextSeason: "2027",
+  location: "Phoenix, AZ",
   tagline: "Purpose. Speed. Impact.",
   quote:
     "Racing is my purpose and my drive, and it's how I want to inspire others to chase the impossible.",
@@ -22,55 +25,99 @@ export const driver = {
 
 export const contact = {
   email: "narcisseontrack08@gmail.com",
-  // Shown only on the partner page. Set to "" to hide it everywhere.
-  phone: "480-599-0648",
   instagram: { handle: "narcisseontrack", url: "https://instagram.com/narcisseontrack" },
   tiktok: { handle: "narcisseontrack", url: "https://www.tiktok.com/@narcisseontrack" },
+  youtube: { handle: "narcisseontrack", url: "https://www.youtube.com/@narcisseontrack" },
   website: "narcissetriano.com",
 };
 
-/** Big red stat strip. Update these as the season goes on. */
+/** "Support my journey" button. Fans can give here; sponsors use the partner page. */
+export const donateUrl = "https://gofund.me/33d6aca6a";
+
+/** Merch is sold through Square. Each product has its own Square link. */
+export const shop = {
+  products: "NTriano hoodies, hats, and shirts",
+  links: [
+    { label: "Signature hoodie", url: "https://square.link/u/n8Zj51lS" },
+    { label: "Hats", url: "https://square.link/u/YPXTtmJz" },
+  ],
+};
+
+/** Big red stat strip. */
 export const stats = [
-  { value: "3 of 4", label: "Podiums", note: "First four races of the season" },
-  { value: "200K+", label: "Avg. monthly views", note: "Across social platforms, growing monthly" },
-  { value: "5.2K+", label: "Social followers", note: "~4K Instagram, ~1.2K TikTok" },
-  { value: "F1 Academy", label: "The goal", note: "Racing alongside F1 race weekends" },
+  { value: "3", label: "Podiums", note: "From 4 races in my first season" },
+  { value: "1", label: "Pole position", note: "Plus P2 in qualifying twice" },
+  { value: "200K+", label: "Avg. monthly views", note: "Across social platforms" },
+  { value: "5.3K+", label: "Social followers", note: "4.1K Instagram, 1.2K TikTok" },
 ];
 
 /** Ticker ribbon at the top of the home page. */
 export const ticker = [
-  `Season ${driver.season} // ${driver.series}`,
+  `${driver.category} // ${driver.series}`,
   `Team // ${driver.team}`,
-  "3 podiums in first 4 races",
-  "Next step // Owning my own car",
+  "3 podiums + 1 pole in my first season",
+  `Next // Full ${driver.nextSeason} championship`,
   `Destination // ${driver.goal}`,
   "Partnerships open now",
 ];
 
-/** "Road so far" timeline. Newest last. */
+/** 2026 season results, race by race. */
+export const results = {
+  season: "2026",
+  summary: `Ran a partial 2026 season with 3 podiums, now raising support to compete in the full ${driver.nextSeason} championship.`,
+  weekends: [
+    {
+      track: "Sonoma Raceway",
+      month: "April 2026",
+      car: "#888",
+      races: [
+        { name: "Race 1", result: "DNF" },
+        { name: "Race 2", result: "P3" },
+      ],
+    },
+    {
+      track: "WeatherTech Raceway Laguna Seca",
+      month: "June 2026",
+      car: "#188",
+      races: [
+        { name: "Race 1", result: "P3" },
+        { name: "Race 2", result: "P3" },
+      ],
+    },
+  ],
+  qualifying: "1 pole position and P2 in qualifying twice.",
+};
+
+/** "Road so far" timeline. Oldest first. */
 export const timeline = [
+  {
+    label: "Start",
+    title: "K1 Speed karting",
+    body: "Learned racecraft in the K1 Speed league in Phoenix.",
+    done: true,
+  },
+  {
+    label: "Italy",
+    title: "Track time in Italy",
+    body: "Seat time at Motodromo Castelletto di Branduzzo.",
+    done: true,
+  },
   {
     label: "Licensed",
     title: "SCCA license at Radford Racing School",
-    body: "Earned my SCCA competition license at Radford Racing School in Arizona.",
+    body: "Earned my SCCA competition license, then trained with Radford and Kiwi Motorsport.",
     done: true,
   },
   {
-    label: "Racecraft",
-    title: "K1 Speed Racing League, Phoenix",
-    body: "Sharpened racecraft wheel to wheel in the Phoenix league.",
+    label: "2026",
+    title: "First F4 season",
+    body: "Partial season in Formula Pro USA with Kiwi Motorsport: 4 races, 3 podiums, 1 pole.",
     done: true,
   },
   {
-    label: "Now",
-    title: "Formula 4 with Kiwi Motorsport",
-    body: "Competing in the F4 West Coast Championship. Three podiums in my first four races.",
-    done: true,
-  },
-  {
-    label: "Next",
-    title: "Owning my own race car",
-    body: "A full season in my own car, so I can keep building my program and prove myself.",
+    label: "2027",
+    title: "Full championship season",
+    body: "A full season with Kiwi Motorsport in the Formula Pro USA Western Championship.",
     done: false,
   },
   {
@@ -82,14 +129,30 @@ export const timeline = [
 ];
 
 /**
- * Car ownership goal. Set `raised` to a number to show a progress bar,
- * or leave it null to show the goal without a progress meter.
+ * Fundraising goal. Set `raised` to a number to show the progress bar,
+ * or null to hide it.
  */
-export const carGoal = {
-  amount: 100_000,
-  raised: null as number | null,
-  summary:
-    "Owning my race car for the season is the real, immediate goal, and it costs roughly $100,000. I'm building toward it one partnership at a time.",
+export const fundraising = {
+  goal: 200_000,
+  raised: 30_000 as number | null,
+  breakdown: [
+    { label: `Full ${driver.nextSeason} season`, amount: 100_000 },
+    { label: "F1 Academy", amount: 100_000 },
+  ],
+  summary: `$100K gets me through the full ${driver.nextSeason} season, and $100K goes toward F1 Academy. I'm building toward it one partner and one supporter at a time.`,
+};
+
+export const story = {
+  /** Short version for the homepage. */
+  short:
+    "I started late, without money or connections, and with no idea where to begin. Through my faith, I decided to chase racing anyway, and I haven't stopped since.",
+  intro:
+    "I'm Narcisse Triano, a 23-year-old F4 driver with Kiwi Motorsport. I'm outgoing, determined, and completely passionate about racing, but I love people just as much as the track. I'm working my way toward F1 Academy, and I want to bring as many people along on the journey as I can.",
+  full: [
+    "I played sports my whole life and always dreamed of going pro. After high school, that dream started to fade. It felt like the door had closed.",
+    "A few years later I found Jesus, and my faith changed everything. I realized that with Him by my side, I could chase anything, so I went after the thing I'd always been obsessed with: racing.",
+    "On paper it didn't make sense. I was starting late, I didn't come from money, and I had no idea where to begin. But I started anyway. I researched, took the first step, and kept pushing no matter what. I've been throwing everything I have into it ever since.",
+  ],
 };
 
 export const whyPartner = [
@@ -102,8 +165,8 @@ export const whyPartner = [
     body: "Your brand is on my suit and helmet at every race weekend, plus in the photo and video content from each event.",
   },
   {
-    title: "Active on two platforms",
-    body: "About 4K followers on Instagram and 1.2K on TikTok, both growing steadily.",
+    title: "Proven on track",
+    body: "3 podiums and a pole position from my first 4 races in Formula Pro USA.",
   },
   {
     title: "A real relationship",
@@ -125,6 +188,10 @@ export type Tier = {
   perks: string[];
   featured?: boolean;
 };
+
+/** Prices stay in the data but are hidden on the site. Set true to show them. */
+export const showTierPrices = false;
+export const tiersStartingAt = "$1,000";
 
 export const tiers: Tier[] = [
   {
@@ -173,7 +240,7 @@ export const tiers: Tier[] = [
   {
     name: "Title Partner",
     price: "$100,000",
-    bestFit: "One anchor brand funding full car ownership for the season",
+    bestFit: "One anchor brand funding the full season",
     includesPrevious: "Platinum",
     perks: [
       "Primary livery and car placement, plus \"presented by\" naming rights",
@@ -185,67 +252,99 @@ export const tiers: Tier[] = [
 ];
 
 export const tierNote =
-  "Car placement is reserved for the Title Partner, the single partnership that funds full ownership of my race car for the season. Every other tier is built around suit, helmet, and social media placement.";
+  "Car placement is reserved for the Title Partner, the single partnership that funds my full season. Every other tier is built around suit, helmet, and social media placement.";
 
 /**
- * Gallery photos. Drop image files into /public/images and set `src`
- * (for example "/images/podium.jpg"). Any photo without a file shows a
- * styled placeholder so the layout still looks right.
+ * Gallery photos. Each has a full-size file and a "-sm" version for phones.
+ * `position` controls the crop (CSS object-position).
  */
 export const gallery = [
   {
-    src: "/images/gallery-1.jpg",
-    alt: "Narcisse's black and yellow #15 F4 car kicking up dust through a desert corner",
-    tag: "Full send",
-    title: "Desert corner",
-    caption: "Carrying speed through the turn in the #15 car.",
+    src: "/images/podium.jpg",
+    alt: "Narcisse on the third step of the podium, holding the trophy overhead",
+    tag: "Podium",
+    title: "P3 in the winner's circle",
+    caption: "One of three podiums in my first season.",
+    position: "50% 30%",
   },
   {
-    src: "/images/gallery-2.jpg",
-    alt: "The #15 F4 car parked trackside at dusk",
-    tag: "The machine",
-    title: "Car #15",
-    caption: "My Formula 4 car with Kiwi Motorsport.",
+    src: "/images/laguna-pits.jpg",
+    alt: "Narcisse in the purple #188 car in the paddock at Laguna Seca",
+    tag: "Laguna Seca // June",
+    title: "Car #188",
+    caption: "Ready to roll out at Laguna Seca.",
+    position: "50% 60%",
   },
   {
-    src: "/images/gallery-3.jpg",
-    alt: "A #15 formula car sliding through a corner in a cloud of tire smoke",
-    tag: "Trackside",
-    title: "Tire smoke",
-    caption: "Finding the limit, one corner at a time.",
+    src: "/images/sonoma-888-a.jpg",
+    alt: "The orange #888 car on track at Sonoma Raceway",
+    tag: "Sonoma // April",
+    title: "Car #888",
+    caption: "My first race weekend, at Sonoma.",
+    position: "50% 55%",
+  },
+  {
+    src: "/images/in-car.jpg",
+    alt: "Narcisse strapped into the cockpit wearing a red and white helmet",
+    tag: "Cockpit",
+    title: "Strapped in",
+    caption: "Getting ready for a practice session.",
+    position: "50% 40%",
+  },
+  {
+    src: "/images/sonoma-888-b.jpg",
+    alt: "The orange #888 car through a corner at Sonoma Raceway",
+    tag: "Sonoma // April",
+    title: "On the attack",
+    caption: "Carrying speed through the corner in #888.",
+    position: "50% 50%",
+  },
+  {
+    src: "/images/practice-car.jpg",
+    alt: "The black and yellow practice car on track",
+    tag: "Testing",
+    title: "Practice days",
+    caption: "Seat time in the practice car between race weekends.",
+    position: "50% 55%",
   },
 ];
+
+export const photoCredit = "Photos by family & friends.";
 
 export const heroImage = {
   src: "/images/hero.jpg",
-  alt: "Narcisse Triano in the #15 F4 car on pit lane at sunset",
-  label: "Kiwi Motorsport // F4 West Coast",
+  alt: "Narcisse in the purple #188 car at Laguna Seca",
+  label: "#188 // Laguna Seca",
 };
 
-/** Cutout of Narcisse in her race suit, and her "Proud" signature mark. */
-export const driverPortrait = { src: "/images/driver.webp", alt: "Narcisse Triano in her race suit and helmet" };
-export const signature = { src: "/images/signature.webp", alt: "Narcisse's Proud signature" };
+export const headshot = { src: "/images/headshot.jpg", alt: "Narcisse Triano in an Astars race suit, holding a helmet" };
+
+/** NTriano signature, her main logo. White for dark backgrounds, original gradient for accents. */
+export const logo = {
+  white: "/images/signature-white.webp",
+  red: "/images/signature-red.webp",
+  color: "/images/signature.webp",
+  alt: "NTriano",
+};
 
 /** Merch shown on the partner page (from narcissetriano.com). */
 export const merch = [
-  { src: "/images/merch-front.webp", alt: "Black hoodie with a photo of Narcisse in her race suit" },
-  { src: "/images/merch-back.webp", alt: "Back of the hoodie with the #15 car, checkered flags, and the Proud signature" },
+  { src: "/images/merch-front.webp", alt: "Black NTriano hoodie with a photo of Narcisse in her race suit" },
+  { src: "/images/merch-back.webp", alt: "Back of the hoodie with the car, checkered flags, and the NTriano signature" },
 ];
 
 /**
- * Current partners. While this is empty, the site shows open "your brand here"
- * slots. Add a logo file to /public/partners and list it like:
+ * Partners. Add a logo file to /public/partners and list it like:
  *   { name: "Acme Co", logo: "/partners/acme.svg", url: "https://acme.com", tier: "Gold" }
  */
-export const partners: { name: string; logo?: string; url?: string; tier?: string }[] = [];
+export const partners: { name: string; logo?: string; url?: string; tier?: string }[] = [
+  { name: "Racing Ritual" },
+];
 
 export const nav = [
   { label: "Story", href: "/#story" },
-  { label: "Season", href: "/#season" },
+  { label: "Results", href: "/#results" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Partner", href: "/partner" },
   { label: "Contact", href: "/partner#contact" },
 ];
-
-/** The downloadable prospectus in /public. */
-export const prospectusPdf = "/Narcisse-Triano-Sponsorship-Prospectus.pdf";

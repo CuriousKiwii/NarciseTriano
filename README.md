@@ -1,6 +1,6 @@
-# Narcisse Triano Racing #15
+# Narcisse Triano Racing #88
 
-Official website for Narcisse Triano, Formula 4 driver with Kiwi Motorsport in the F4 West Coast Championship, on the road to F1 Academy. The site's main job is landing sponsors.
+Official website for Narcisse Triano, F4 driver with Kiwi Motorsport in the Formula Pro USA Western Championship, on the road to F1 Academy. The site's main job is landing sponsors.
 
 Built with [Astro](https://astro.build) and Tailwind CSS v4. It's a fully static site, so it can be hosted anywhere for free.
 
@@ -12,7 +12,7 @@ Built with [Astro](https://astro.build) and Tailwind CSS v4. It's a fully static
 | `/partner` | Full sponsorship pitch: tiers, in-kind, merch, the $100K car goal, partner wall, contact form |
 | `/404` | Off-track page |
 
-The sponsorship prospectus PDF lives at `public/Narcisse-Triano-Sponsorship-Prospectus.pdf` and is linked from both pages.
+The sponsorship deck is sent on request only (through the contact form), so it is not hosted on the site.
 
 ## Run it locally
 
@@ -26,23 +26,27 @@ Requires Node 22+.
 
 ## Editing content
 
-Nearly everything lives in **`src/data/site.ts`**: stats, timeline, tiers, gallery captions, social handles, email, phone, and the partner list. Change it there and both pages update.
+Nearly everything lives in **`src/data/site.ts`**: stats, timeline, tiers, gallery captions, social links, GoFundMe and merch links, fundraising progress, and the partner list. Change it there and both pages update.
 
-**Photos.** Images live in `public/images/`. Each photo has a full-size version and a `-sm` version (720px wide) that phones download instead, so pages stay fast on mobile.
+**Photos.** Images live in `public/images/`. Each photo has a full-size version and a `-sm` version (720px wide) that phones download instead.
 
 | File | Where it shows |
 |---|---|
-| `hero.jpg` + `hero-sm.jpg` | Home hero |
-| `gallery-1/2/3.jpg` + `-sm.jpg` | Home gallery cards |
-| `driver.webp` | Driver cutout in the story section |
-| `signature.webp` | "Proud" signature under the hero quote |
+| `hero.jpg` | Home hero (purple #188 at Laguna Seca) |
+| `headshot.jpg` | Story section portrait |
+| `podium.jpg`, `laguna-pits.jpg`, `sonoma-888-a.jpg`, `in-car.jpg`, `sonoma-888-b.jpg`, `practice-car.jpg` | Home gallery |
+| `signature-white.webp`, `signature-red.webp`, `signature.webp` | NTriano logo (header, footer, quote, partner page) |
 | `merch-front.webp`, `merch-back.webp` | Merch section on the partner page |
 
-To swap a photo, replace the file with the same name (and its `-sm` version). Any missing file shows a styled placeholder. Captions and alt text are in `site.ts`.
+Current photos came from screenshots, so swap in full-size originals when Narcisse sends them (same file names, plus a 720px `-sm` copy). Only use photos of cars she has raced (#188, #888); the black and yellow car is a practice car. Gallery captions, crop position, and alt text are in `site.ts`.
 
-**Partners.** When someone signs, add them to the `partners` array in `site.ts` and put their logo in `public/partners/`. The "Your brand here" slots go away once there's at least one partner.
+**Partners.** Add sponsors to the `partners` array in `site.ts` (logos go in `public/partners/`). Empty slots show "Your brand here" up to four total.
 
-**Fundraising progress.** Set `carGoal.raised` to a dollar amount to show a progress bar under the $100K goal. Leave it `null` to hide the bar.
+**Fundraising progress.** Update `fundraising.raised` in `site.ts` as money comes in. Set it to `null` to hide the bar.
+
+**Tier prices.** Prices are kept in `site.ts` but hidden on the site, per Narcisse. Set `showTierPrices = true` to show them.
+
+**Links.** GoFundMe (`donateUrl`), Square merch links (`shop`), and socials (`contact`) are all in `site.ts`.
 
 **Brand colors and fonts.** Defined once in `src/styles/global.css` under `@theme`.
 
@@ -75,8 +79,7 @@ Note: GitHub Pages on a private repo requires GitHub Pro (or Team/Enterprise). O
 
 ## Before launch checklist
 
-- [ ] Confirm season year and that stats are current (3 of 4 podiums, 200K+ views, 5.2K+ followers).
-- [ ] Confirm Instagram/TikTok handles are `@narcisseontrack`.
-- [ ] Decide whether the phone number should be public (`contact.phone`, set to `""` to hide).
-- [ ] Set up Formspree (optional).
-- [ ] Switch from the test subfolder to the real domain (see above).
+- [ ] Replace screenshot photos with full-size originals.
+- [ ] Confirm where narcissetriano.com is registered (possibly Canva) and point it here.
+- [ ] Set up Formspree so the contact form sends directly (optional).
+- [ ] Update results and the 2027 schedule once the calendar and FIA license are set.

@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Photo from "../components/Photo.astro";
 import Icon from "../components/Icon.astro";
 import TierCard from "../components/TierCard.astro";
+import FundraisingMeter from "../components/FundraisingMeter.astro";
 import { u } from "../lib/url";
 import {
   driver,
@@ -10,19 +11,21 @@ import {
   stats,
   ticker,
   timeline,
-  carGoal,
+  results,
+  story,
   whyPartner,
   tiers,
+  tiersStartingAt,
   gallery,
+  photoCredit,
   heroImage,
-  prospectusPdf,
-  driverPortrait,
-  signature,
+  headshot,
+  logo,
+  donateUrl,
 } from "../data/site";
 
-const pct = carGoal.raised != null ? Math.min(100, (carGoal.raised / carGoal.amount) * 100) : null;
-const usd = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 const chevrons = "&gt;".repeat(120);
+const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1-3]$/.test(r.result)).length;
 ---
 
 <Base>
@@ -43,7 +46,7 @@ const chevrons = "&gt;".repeat(120);
   <!-- HERO -->
   <section class="relative overflow-hidden bg-surface-lowest py-10 md:py-14">
     <div class="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none select-none opacity-[0.04]" aria-hidden="true">
-      <span class="headline font-extrabold text-[150px] md:text-[260px] whitespace-nowrap">F4 #{driver.carNumber}</span>
+      <span class="headline font-extrabold text-[260px] whitespace-nowrap">{driver.category} #{driver.carNumber}</span>
     </div>
 
     <div class="relative max-w-7xl mx-auto px-5 md:px-gutter">
@@ -54,11 +57,11 @@ const chevrons = "&gt;".repeat(120);
             Purpose. Speed. <span class="text-red italic">Impact.</span>
           </h1>
           <p class="headline font-semibold text-2xl md:text-3xl text-ink-muted mt-2">
-            {driver.name} <span class="text-red-soft">// Car #{driver.carNumber}</span>
+            {driver.name} <span class="text-red-soft">// #{driver.carNumber}</span>
           </p>
         </div>
         <div class="flex flex-col gap-1 md:text-right">
-          <span class="telemetry text-ink-muted">Formula 4 // {driver.team}</span>
+          <span class="telemetry text-ink-muted">{driver.category} // {driver.team}</span>
           <span class="telemetry text-red-soft">{driver.series}</span>
         </div>
       </div>
@@ -68,32 +71,35 @@ const chevrons = "&gt;".repeat(120);
           <div class="flex flex-col gap-5">
             <div class="flex items-center justify-between">
               <span class="telemetry text-ink-muted">Driver profile</span>
-              <span class="font-mono text-micro uppercase bg-surface-mid px-2 py-0.5 text-red-soft">Status: Pursuit</span>
+              <span class="font-mono text-micro uppercase bg-surface-mid px-2 py-0.5 text-red-soft">{driver.location}</span>
             </div>
             <figure class="relative bg-surface-high p-5">
               <div class="absolute left-0 top-0 w-1 h-full bg-red"></div>
               <blockquote class="italic leading-relaxed">{driver.quote}</blockquote>
               <figcaption class="mt-3 flex items-center justify-between gap-3">
                 <span class="telemetry text-red-soft">{driver.name}</span>
-                <Photo src={signature.src} alt={signature.alt} class="h-12 w-auto -rotate-6" />
+                <Photo src={logo.white} alt={logo.alt} class="h-14 w-auto" />
               </figcaption>
             </figure>
             <dl class="flex flex-col gap-2">
               <div class="flex items-center justify-between p-3 bg-surface-mid">
-                <dt class="telemetry text-ink-muted">Podiums</dt>
-                <dd class="headline text-3xl">3 of 4 races</dd>
+                <dt class="telemetry text-ink-muted">First season</dt>
+                <dd class="headline text-2xl sm:text-3xl text-right">3 podiums, 1 pole</dd>
               </div>
               <div class="flex items-center justify-between p-3 bg-surface-mid">
                 <dt class="telemetry text-ink-muted">Team</dt>
-                <dd class="headline text-3xl text-red-soft">{driver.team}</dd>
+                <dd class="headline text-2xl sm:text-3xl text-red-soft text-right">{driver.team}</dd>
               </div>
               <div class="flex items-center justify-between p-3 bg-surface-mid">
-                <dt class="telemetry text-ink-muted">Licensed</dt>
-                <dd class="telemetry">SCCA // Radford</dd>
+                <dt class="telemetry text-ink-muted">Next</dt>
+                <dd class="telemetry">Full {driver.nextSeason} season</dd>
               </div>
             </dl>
           </div>
-          <a href={u("/partner")} class="btn btn-red w-full">Back the drive <Icon name="bolt" /></a>
+          <div class="flex flex-col gap-2">
+            <a href={u("/partner")} class="btn btn-red w-full">Partner with me <Icon name="bolt" /></a>
+            <a href={donateUrl} target="_blank" rel="noopener" class="btn btn-ghost w-full !text-xl">Support my journey</a>
+          </div>
         </div>
 
         <div class="lg:col-span-8 relative lg:min-h-[480px] overflow-hidden group order-1 lg:order-2 flex flex-col lg:justify-end bg-surface-lowest">
@@ -114,9 +120,9 @@ const chevrons = "&gt;".repeat(120);
           <div class="relative p-5 lg:p-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span class="font-mono text-micro uppercase text-red-soft">Next step</span>
-              <div class="headline font-extrabold text-4xl sm:text-5xl">Own the car. <span class="text-red">Reach F1 Academy.</span></div>
+              <div class="headline font-extrabold text-4xl sm:text-5xl">Full {driver.nextSeason} season. <span class="text-red">Then F1 Academy.</span></div>
             </div>
-            <div class="bg-red px-4 py-2 text-red-ink telemetry">Season {driver.season} // {driver.seriesShort}</div>
+            <div class="bg-red px-4 py-2 text-red-ink telemetry">{driver.category} // {driver.seriesShort}</div>
           </div>
         </div>
       </div>
@@ -129,7 +135,7 @@ const chevrons = "&gt;".repeat(120);
       {
         stats.map((s) => (
           <div class="flex flex-col p-4 bg-red-deep/40">
-            <span class="headline font-extrabold text-4xl sm:text-5xl md:text-6xl xl:text-7xl my-1 text-white">{s.value}</span>
+            <span class="headline font-extrabold text-5xl md:text-6xl xl:text-7xl my-1 text-white">{s.value}</span>
             <span class="font-semibold uppercase">{s.label}</span>
             <span class="text-xs mt-1 text-red-ink/80">{s.note}</span>
           </div>
@@ -144,42 +150,25 @@ const chevrons = "&gt;".repeat(120);
       <div class="lg:col-span-7 flex flex-col gap-6">
         <div class="flex items-center gap-2">
           <span class="w-3 h-3 bg-red"></span>
-          <span class="telemetry text-red-soft">My story // Dossier #{driver.carNumber}</span>
+          <span class="telemetry text-red-soft">My story</span>
         </div>
-        <h2 class="headline text-5xl md:text-6xl">The pursuit of the <span class="text-red">F1 Academy grid</span></h2>
+        <h2 class="headline text-5xl md:text-6xl">Started late. <span class="text-red">Never stopped.</span></h2>
+        <p class="text-xl leading-relaxed text-ink font-semibold">{story.short}</p>
         <div class="flex flex-col gap-4 bg-surface-mid p-6 md:p-8 text-ink-muted leading-relaxed">
-          <p class="text-lg text-ink font-semibold">
-            Hi, I'm Narcisse. My dream is to race professionally and one day compete in F1 Academy. Racing is my
-            purpose and my drive, and it's how I want to inspire others to chase the impossible.
-          </p>
-          <p>
-            I earned my SCCA license at Radford Racing School in Arizona and sharpened my racecraft in the K1 Speed
-            Racing League in Phoenix. Today I drive Formula 4 for {driver.team} in the {driver.series}, and I opened
-            my first season with three podiums in four races.
-          </p>
-          <p>
-            My next step is owning my own race car. F1 Academy drivers are backed by major companies once they're
-            picked up, but getting there means proving myself with my own program first. That's where partners come in.
-          </p>
-          <p>
-            I'm doing this out of faith. I've put everything I have into it: my time, my training, my own money. I'm
-            not asking anyone to give what I haven't already given myself. Every dollar, every product, and every bit
-            of support goes straight toward getting me on track and one step closer.
-          </p>
+          <p class="text-lg text-ink">{story.intro}</p>
+          {story.full.map((p) => <p>{p}</p>)}
         </div>
-        <div class="flex flex-wrap gap-4">
+        <div class="flex flex-wrap gap-3">
           <a href={u("/partner")} class="btn btn-red">Become a partner //</a>
-          <a href={u(prospectusPdf)} download class="btn btn-ghost"><Icon name="download" /> Sponsor deck</a>
+          <a href={donateUrl} target="_blank" rel="noopener" class="btn btn-ghost">Support my journey</a>
         </div>
       </div>
 
-      <!-- Road so far HUD -->
-      <aside id="season" class="lg:col-span-5 bg-surface-mid p-6 flex flex-col gap-6">
-        <div class="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-red via-red-deep to-surface-lowest">
-          <div class="absolute inset-0 flex items-center justify-center headline font-extrabold text-[220px] text-black/20 select-none" aria-hidden="true">#{driver.carNumber}</div>
-          <Photo src={driverPortrait.src} alt={driverPortrait.alt} class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[95%] w-auto object-contain" />
-          <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-surface-lowest/90 to-transparent">
-            <span class="font-mono text-micro uppercase text-red-soft">Driver</span>
+      <aside class="lg:col-span-5 bg-surface-mid p-6 flex flex-col gap-6">
+        <div class="relative h-96 overflow-hidden bg-surface-lowest">
+          <Photo src={headshot.src} alt={headshot.alt} sizes="(min-width: 1024px) 40vw, 100vw" class="absolute inset-0 w-full h-full object-cover object-[50%_20%]" />
+          <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-surface-lowest/95 via-surface-lowest/60 to-transparent">
+            <span class="font-mono text-micro uppercase text-red-soft">Driver // {driver.location}</span>
             <div class="headline text-3xl">{driver.name}</div>
           </div>
         </div>
@@ -189,7 +178,7 @@ const chevrons = "&gt;".repeat(120);
             <span class="w-2.5 h-2.5 rounded-full bg-red animate-ping"></span>
             <span class="telemetry">Road so far</span>
           </div>
-          <span class="telemetry text-red-soft">Season {driver.season}</span>
+          <span class="telemetry text-red-soft">Next: {driver.nextSeason}</span>
         </div>
 
         <ol class="relative flex flex-col gap-5 pl-6 before:absolute before:left-[7px] before:top-1 before:bottom-1 before:w-0.5 before:bg-surface-highest">
@@ -211,31 +200,53 @@ const chevrons = "&gt;".repeat(120);
             ))
           }
         </ol>
-
-        <div class="bg-surface-lowest p-5 flex flex-col gap-2">
-          <span class="font-mono text-micro uppercase text-ink-muted">Season goal // own my car</span>
-          <div class="flex items-baseline gap-2">
-            {
-              pct != null ? (
-                <>
-                  <span class="headline font-extrabold text-5xl text-red-soft">{usd(carGoal.raised!)}</span>
-                  <span class="text-sm text-ink-muted">/ {usd(carGoal.amount)}</span>
-                </>
-              ) : (
-                <span class="headline font-extrabold text-5xl text-red-soft">~{usd(carGoal.amount)}</span>
-              )
-            }
-          </div>
-          {
-            pct != null && (
-              <div class="w-full h-3 bg-surface-mid mt-2" role="progressbar" aria-valuenow={Math.round(pct)} aria-valuemin="0" aria-valuemax="100">
-                <div class="h-full bg-red" style={`width:${pct}%`} />
-              </div>
-            )
-          }
-          <p class="text-sm text-ink-muted">{carGoal.summary}</p>
-        </div>
       </aside>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="bg-surface-lowest py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span class="telemetry text-red-soft block mb-2">{results.season} results // {driver.seriesShort}</span>
+          <h2 class="headline text-5xl md:text-6xl">{podiumCount} podiums. <span class="text-red">4 races.</span></h2>
+        </div>
+        <p class="max-w-md text-ink-muted">{results.summary}</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+        {
+          results.weekends.map((w) => (
+            <article class="relative bg-surface-mid p-6 overflow-hidden">
+              <div class="absolute left-0 top-0 w-1.5 h-full bg-red" />
+              <div class="flex items-center justify-between telemetry text-ink-muted">
+                <span>{w.month}</span>
+                <span class="text-red-soft">Car {w.car}</span>
+              </div>
+              <h3 class="headline text-3xl sm:text-4xl mt-2">{w.track}</h3>
+              <div class="grid grid-cols-2 gap-3 mt-5">
+                {w.races.map((r) => (
+                  <div class:list={["p-4 flex flex-col", /^P[1-3]$/.test(r.result) ? "bg-red text-white" : "bg-surface-high"]}>
+                    <span class="font-mono text-micro uppercase opacity-80">{r.name}</span>
+                    <span class="headline font-extrabold text-5xl">{r.result}</span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <p class="flex gap-3 p-4 bg-surface-low text-sm text-ink-muted">
+        <Icon name="flag" class="w-5 h-5 shrink-0 text-red-soft" />
+        <span>Qualifying: {results.qualifying}</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- FUNDRAISING -->
+  <section class="bg-surface-low py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-5 md:px-gutter">
+      <FundraisingMeter />
     </div>
   </section>
 
@@ -281,20 +292,22 @@ const chevrons = "&gt;".repeat(120);
         </a>
       </div>
       <div class="chevrons text-red" aria-hidden="true" set:html={chevrons} />
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
         {
           gallery.map((g) => (
             <figure class="group bg-surface-mid flex flex-col overflow-hidden">
-              <div class="relative h-64 sm:h-80 overflow-hidden">
-                <Photo src={g.src} alt={g.alt} sizes="(min-width: 768px) 33vw, 100vw" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div class="relative h-64 sm:h-72 overflow-hidden">
+                <Photo
+                  src={g.src}
+                  alt={g.alt}
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  style={`object-position:${g.position}`}
+                />
                 <div class="absolute inset-0 bg-gradient-to-t from-surface-mid via-transparent to-transparent opacity-80" />
                 <span class="absolute top-3 left-3 bg-surface-lowest/90 px-2 py-0.5 telemetry text-red-soft">{g.tag}</span>
               </div>
               <figcaption class="p-5">
-                <div class="flex items-center justify-between telemetry text-ink-muted mb-1">
-                  <span>{driver.seriesShort}</span>
-                  <span class="text-red-soft">Car #{driver.carNumber}</span>
-                </div>
                 <h3 class="headline text-3xl">{g.title}</h3>
                 <p class="text-sm text-ink-muted mt-1">{g.caption}</p>
               </figcaption>
@@ -302,6 +315,7 @@ const chevrons = "&gt;".repeat(120);
           ))
         }
       </div>
+      <p class="font-mono text-micro uppercase text-ink-dim">{photoCredit}</p>
     </div>
   </section>
 
@@ -309,9 +323,7 @@ const chevrons = "&gt;".repeat(120);
   <section class="bg-surface-lowest py-16 md:py-24">
     <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-10">
       <div class="relative bg-red p-6 sm:p-8 md:p-12 overflow-hidden">
-        <div class="absolute -right-10 -bottom-16 headline font-extrabold text-[140px] sm:text-[200px] text-red-deep/60 select-none pointer-events-none" aria-hidden="true">
-          #{driver.carNumber}
-        </div>
+        <img src={u(logo.white)} alt="" aria-hidden="true" class="absolute -right-6 -bottom-6 w-64 sm:w-96 opacity-15 select-none pointer-events-none" />
         <div class="relative max-w-3xl flex flex-col gap-4">
           <span class="self-start bg-red-deep px-3 py-1 telemetry">// Get in early</span>
           <h2 class="headline font-extrabold text-5xl md:text-hero text-white">Join the team.</h2>
@@ -322,8 +334,11 @@ const chevrons = "&gt;".repeat(120);
         </div>
       </div>
 
-      <div class="flex items-center justify-between">
-        <h3 class="headline text-3xl">Partnership tiers</h3>
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+        <div>
+          <h3 class="headline text-3xl">Partnership tiers</h3>
+          <p class="text-sm text-ink-muted">Partnerships starting at {tiersStartingAt}. Contact me for details.</p>
+        </div>
         <a href={u("/partner#tiers")} class="telemetry text-red-soft hover:text-ink flex items-center gap-2">
           Full details <Icon name="arrow" class="w-4 h-4" />
         </a>
@@ -334,15 +349,18 @@ const chevrons = "&gt;".repeat(120);
 
       <div class="p-6 bg-surface-mid flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <span class="headline text-3xl">Follow the season in real time</span>
-          <p class="text-sm text-ink-muted mt-1">Race weekends, training, and behind-the-scenes on Instagram and TikTok.</p>
+          <span class="headline text-3xl">Follow the journey</span>
+          <p class="text-sm text-ink-muted mt-1">Race weekends, training, and behind-the-scenes on Instagram, TikTok, and YouTube.</p>
         </div>
         <div class="flex flex-wrap gap-3">
-          <a href={contact.instagram.url} target="_blank" rel="noopener" class="btn btn-ghost !text-xl">
-            <Icon name="instagram" /> @{contact.instagram.handle}
+          <a href={contact.instagram.url} target="_blank" rel="noopener" class="btn btn-ghost !text-xl" aria-label="Instagram">
+            <Icon name="instagram" /> Instagram
           </a>
-          <a href={contact.tiktok.url} target="_blank" rel="noopener" class="btn btn-ghost !text-xl">
-            <Icon name="tiktok" /> @{contact.tiktok.handle}
+          <a href={contact.tiktok.url} target="_blank" rel="noopener" class="btn btn-ghost !text-xl" aria-label="TikTok">
+            <Icon name="tiktok" /> TikTok
+          </a>
+          <a href={contact.youtube.url} target="_blank" rel="noopener" class="btn btn-ghost !text-xl" aria-label="YouTube">
+            <Icon name="youtube" /> YouTube
           </a>
         </div>
       </div>
