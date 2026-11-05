@@ -8,14 +8,14 @@ const pct = fundraising.raised != null ? Math.min(100, (fundraising.raised / fun
 ---
 
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-stretch">
-  <div class="lg:col-span-7 bg-surface-mid p-6 md:p-8 flex flex-col gap-5 relative overflow-hidden">
+  <div class="lg:col-span-7 bg-surface-mid p-6 md:p-8 flex flex-col gap-5 relative overflow-hidden" data-reveal>
     <div class="absolute top-0 inset-x-0 h-1 bg-red"></div>
     <span class="telemetry text-red-soft">The goal // {driver.nextSeason} + {driver.goal}</span>
     <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
       {
         pct != null ? (
           <>
-            <span class="headline font-extrabold text-6xl md:text-7xl text-white">{usd(fundraising.raised!)}</span>
+            <span class="headline font-extrabold text-6xl md:text-7xl text-white tabular-nums" data-count>{usd(fundraising.raised!)}</span>
             <span class="text-ink-muted">raised of {usd(fundraising.goal)}</span>
           </>
         ) : (
@@ -34,7 +34,7 @@ const pct = fundraising.raised != null ? Math.min(100, (fundraising.raised / fun
             aria-valuemin="0"
             aria-valuemax="100"
           >
-            <div class="h-full bg-red" style={`width:${pct}%`} />
+            <div class="h-full bg-red" data-fill style={`width:${pct}%`} />
           </div>
           <div class="flex justify-between telemetry text-ink-dim mt-2">
             <span>{Math.round(pct)}% there</span>
@@ -46,7 +46,7 @@ const pct = fundraising.raised != null ? Math.min(100, (fundraising.raised / fun
     <p class="text-ink-muted leading-relaxed">{fundraising.summary}</p>
   </div>
 
-  <div class="lg:col-span-5 flex flex-col gap-3">
+  <div class="lg:col-span-5 flex flex-col gap-3" data-reveal-stagger>
     {
       fundraising.breakdown.map((b) => (
         <div class="flex items-center justify-between p-5 bg-surface-mid">

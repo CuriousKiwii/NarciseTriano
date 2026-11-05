@@ -54,7 +54,7 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
         <div>
           <div class="inline-flex px-3 py-1 bg-red text-red-ink telemetry mb-3">Road to {driver.goal}</div>
           <h1 class="headline font-extrabold text-6xl md:text-hero tracking-tight">
-            Purpose. Speed. <span class="text-red italic">Impact.</span>
+            Purpose. Speed. <span class="text-red italic speed-stripe">Impact.</span>
           </h1>
           <p class="headline font-semibold text-2xl md:text-3xl text-ink-muted mt-2">
             {driver.name} <span class="text-red-soft">// #{driver.carNumber}</span>
@@ -112,11 +112,33 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
               sizes="(min-width: 1024px) 66vw, 100vw"
               class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
+            <video
+              id="hero-video"
+              class="absolute inset-0 w-full h-full object-cover opacity-0 transition-[opacity,transform] duration-700 group-hover:scale-105"
+              muted
+              playsinline
+              loop
+              preload="none"
+              aria-hidden="true"
+              data-sm={u("/video/hero-720.mp4")}
+              data-lg={u("/video/hero-1080.mp4")}
+            ></video>
             <div class="absolute inset-0 bg-gradient-to-t from-surface-lowest/80 via-transparent to-transparent lg:from-surface-lowest lg:via-surface-lowest/30"></div>
           </div>
           <div class="hidden sm:block absolute top-4 right-4 px-4 py-1.5 bg-surface-lowest/90 backdrop-blur-md">
-            <span class="telemetry text-red-soft">{heroImage.label}</span>
+            <span id="hero-label" class="telemetry text-red-soft" data-video-label="Sunset session">{heroImage.label}</span>
           </div>
+          <button
+            id="hero-video-toggle"
+            type="button"
+            class="hidden absolute top-4 left-4 w-9 h-9 items-center justify-center bg-surface-lowest/80 backdrop-blur-md text-ink hover:text-red-soft transition-colors"
+            aria-label="Pause background video"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path data-icon="pause" d="M6 4h4v16H6zM14 4h4v16h-4z" />
+              <path data-icon="play" class="hidden" d="M7 4v16l13-8z" />
+            </svg>
+          </button>
           <div class="relative p-5 lg:p-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span class="font-mono text-micro uppercase text-red-soft">Next step</span>
@@ -134,8 +156,8 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
     <div class="max-w-7xl mx-auto px-5 md:px-gutter grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-gutter">
       {
         stats.map((s) => (
-          <div class="flex flex-col p-4 bg-red-deep/40">
-            <span class="headline font-extrabold text-5xl md:text-6xl xl:text-7xl my-1 text-white">{s.value}</span>
+          <div class="flex flex-col p-4 bg-red-deep/40" data-reveal>
+            <span class="headline font-extrabold text-5xl md:text-6xl xl:text-7xl my-1 text-white tabular-nums" data-count>{s.value}</span>
             <span class="font-semibold uppercase">{s.label}</span>
             <span class="text-xs mt-1 text-red-ink/80">{s.note}</span>
           </div>
@@ -181,7 +203,7 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
           <span class="telemetry text-red-soft">Next: {driver.nextSeason}</span>
         </div>
 
-        <ol class="relative flex flex-col gap-5 pl-6 before:absolute before:left-[7px] before:top-1 before:bottom-1 before:w-0.5 before:bg-surface-highest">
+        <ol data-reveal-stagger class="relative flex flex-col gap-5 pl-6 before:absolute before:left-[7px] before:top-1 before:bottom-1 before:w-0.5 before:bg-surface-highest">
           {
             timeline.map((t) => (
               <li class="relative">
@@ -207,14 +229,14 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
   <!-- RESULTS -->
   <section id="results" class="bg-surface-lowest py-16 md:py-24">
     <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4" data-reveal>
         <div>
           <span class="telemetry text-red-soft block mb-2">{results.season} results // {driver.seriesShort}</span>
           <h2 class="headline text-5xl md:text-6xl">{podiumCount} podiums. <span class="text-red">4 races.</span></h2>
         </div>
         <p class="max-w-md text-ink-muted">{results.summary}</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter" data-reveal-stagger>
         {
           results.weekends.map((w) => (
             <article class="relative bg-surface-mid p-6 overflow-hidden">
@@ -253,7 +275,7 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
   <!-- WHY PARTNER -->
   <section class="bg-surface-lowest py-16 md:py-24">
     <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4" data-reveal>
         <div>
           <span class="telemetry text-red-soft block mb-2">Why partner with me</span>
           <h2 class="headline text-5xl md:text-6xl">Your brand, <span class="text-red">on the climb.</span></h2>
@@ -263,8 +285,8 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
           climbing the single-seater ladder toward professional racing.
         </p>
       </div>
-      <div class="chevrons text-red/40" aria-hidden="true" set:html={chevrons} />
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+      <div class="chevrons text-red/40" aria-hidden="true" ><span class="chev-track" set:html={chevrons} /></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter" data-reveal-stagger>
         {
           whyPartner.map((w, i) => (
             <div class="relative bg-surface-mid p-6 overflow-hidden">
@@ -282,7 +304,7 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
   <!-- GALLERY -->
   <section id="gallery" class="bg-surface-low py-16 md:py-24">
     <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4" data-reveal>
         <div>
           <span class="telemetry text-red-soft block mb-2">Track record // Photo archive</span>
           <h2 class="headline text-5xl md:text-6xl">From the <span class="text-red">paddock</span></h2>
@@ -291,8 +313,8 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
           More on Instagram <Icon name="external" class="w-4 h-4" />
         </a>
       </div>
-      <div class="chevrons text-red" aria-hidden="true" set:html={chevrons} />
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      <div class="chevrons text-red" aria-hidden="true" ><span class="chev-track" set:html={chevrons} /></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter" data-reveal-stagger>
         {
           gallery.map((g) => (
             <figure class="group bg-surface-mid flex flex-col overflow-hidden">
@@ -322,7 +344,7 @@ const podiumCount = results.weekends.flatMap((w) => w.races).filter((r) => /^P[1
   <!-- PARTNER CTA -->
   <section class="bg-surface-lowest py-16 md:py-24">
     <div class="max-w-7xl mx-auto px-5 md:px-gutter flex flex-col gap-10">
-      <div class="relative bg-red p-6 sm:p-8 md:p-12 overflow-hidden">
+      <div class="relative bg-red p-6 sm:p-8 md:p-12 overflow-hidden" data-reveal>
         <img src={u(logo.white)} alt="" aria-hidden="true" class="absolute -right-6 -bottom-6 w-64 sm:w-96 opacity-15 select-none pointer-events-none" />
         <div class="relative max-w-3xl flex flex-col gap-4">
           <span class="self-start bg-red-deep px-3 py-1 telemetry">// Get in early</span>
