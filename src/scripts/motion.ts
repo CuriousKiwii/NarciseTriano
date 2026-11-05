@@ -10,16 +10,16 @@ function heroVideo() {
   const v = document.getElementById("hero-video") as HTMLVideoElement | null;
   if (!v || reduce || saveData) return;
   const toggle = document.getElementById("hero-video-toggle") as HTMLButtonElement | null;
-  const label = document.getElementById("hero-label");
   let userPaused = false;
 
   const start = () => {
-    v.src = window.innerWidth >= 768 ? v.dataset.lg! : v.dataset.sm!;
+    const portrait = window.matchMedia("(orientation: portrait)").matches;
+    const px = window.innerWidth * Math.min(window.devicePixelRatio || 1, 2);
+    v.src = portrait ? v.dataset.portrait! : px > 1600 ? v.dataset.lg! : v.dataset.md!;
     v.addEventListener(
       "playing",
       () => {
         v.classList.remove("opacity-0");
-        if (label?.dataset.videoLabel) label.textContent = label.dataset.videoLabel;
         toggle?.classList.replace("hidden", "flex");
       },
       { once: true },

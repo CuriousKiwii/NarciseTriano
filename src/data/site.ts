@@ -260,12 +260,36 @@ export const tierNote =
  */
 export const gallery = [
   {
+    src: "/images/test-sunset-silhouette.jpg",
+    alt: "Narcisse pulling on her helmet beside the car at sunset",
+    tag: "Buttonwillow // Test day",
+    title: "Golden hour",
+    caption: "Helmet on for the last run of the day.",
+    position: "55% 40%",
+  },
+  {
     src: "/images/podium.jpg",
     alt: "Narcisse on the third step of the podium, holding the trophy overhead",
     tag: "Podium",
     title: "P3 in the winner's circle",
     caption: "One of three podiums in my first season.",
     position: "50% 30%",
+  },
+  {
+    src: "/images/test-visor.jpg",
+    alt: "Close-up of Narcisse in the cockpit with an iridescent visor",
+    tag: "Cockpit",
+    title: "Visor down",
+    caption: "Locked in before rolling out.",
+    position: "45% 50%",
+  },
+  {
+    src: "/images/test-nose-15.jpg",
+    alt: "Front view of car #15 with Narcisse in the cockpit at golden hour",
+    tag: "Buttonwillow // Test day",
+    title: "Car #15",
+    caption: "Test day seat time with Kiwi Motorsport.",
+    position: "50% 45%",
   },
   {
     src: "/images/laguna-pits.jpg",
@@ -276,12 +300,20 @@ export const gallery = [
     position: "50% 60%",
   },
   {
-    src: "/images/sonoma-888-a.jpg",
-    alt: "The orange #888 car on track at Sonoma Raceway",
-    tag: "Sonoma // April",
-    title: "Car #888",
-    caption: "My first race weekend, at Sonoma.",
-    position: "50% 55%",
+    src: "/images/test-helmet-smile.jpg",
+    alt: "Narcisse smiling and holding her red, white and blue helmet",
+    tag: "Paddock",
+    title: "All smiles",
+    caption: "Between sessions on test day.",
+    position: "35% 40%",
+  },
+  {
+    src: "/images/test-roll-out.jpg",
+    alt: "Car #15 rolling out of the pit area",
+    tag: "Buttonwillow // Test day",
+    title: "Rolling out",
+    caption: "Heading out for another run.",
+    position: "60% 55%",
   },
   {
     src: "/images/in-car.jpg",
@@ -292,12 +324,20 @@ export const gallery = [
     position: "50% 40%",
   },
   {
-    src: "/images/sonoma-888-b.jpg",
-    alt: "The orange #888 car through a corner at Sonoma Raceway",
-    tag: "Sonoma // April",
-    title: "On the attack",
-    caption: "Carrying speed through the corner in #888.",
-    position: "50% 50%",
+    src: "/images/test-coach.jpg",
+    alt: "A coach leaning in to talk with Narcisse in the cockpit",
+    tag: "Debrief",
+    title: "Learning every lap",
+    caption: "Notes from the coach before the next run.",
+    position: "40% 40%",
+  },
+  {
+    src: "/images/test-sunset-pass.jpg",
+    alt: "The car alone on track with the sun setting behind it",
+    tag: "Buttonwillow // Test day",
+    title: "Last light",
+    caption: "Laps into the sunset.",
+    position: "30% 60%",
   },
   {
     src: "/images/practice-car.jpg",
@@ -308,6 +348,16 @@ export const gallery = [
     position: "50% 55%",
   },
 ];
+
+/** Hero video loop, cut from Narcisse's own YouTube footage (Buttonwillow test day). */
+export const heroVideo = {
+  poster: "/images/hero-poster.jpg",
+  posterPortrait: "/images/hero-poster-portrait.jpg",
+  portrait: "/video/hero-portrait.mp4",
+  md: "/video/hero-1280.mp4",
+  lg: "/video/hero-1920.mp4",
+  alt: "Narcisse putting on her helmet next to her car at sunset",
+};
 
 export const photoCredit = "Photos by family & friends.";
 
